@@ -4,6 +4,7 @@ from importlib.metadata import version as _dist_version
 
 from ._engine import configure
 from ._engine import scanner_version
+from ._scan import scan
 from ._types import Hit
 from ._types import HitKind
 from ._types import ScannerVersion
@@ -16,5 +17,6 @@ __all__ = [
     "ScannerVersion",
     "__version__",
     "configure",
+    "scan",
     "scanner_version",
 ]
