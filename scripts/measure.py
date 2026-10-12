@@ -5,7 +5,6 @@ Usage: uv run python scripts/measure.py
 
 from __future__ import annotations
 
-import random
 import resource
 import sys
 import time
@@ -18,29 +17,8 @@ from hyperscale.pii_scanner import scan  # noqa: E402
 from hyperscale.pii_scanner import scanner_version  # noqa: E402
 from tests.corpus import Counts  # noqa: E402
 from tests.corpus import load_corpus  # noqa: E402
+from tests.corpus import perf_document  # noqa: E402
 from tests.corpus import score  # noqa: E402
-
-WORDS = (
-    "the mother reported that the child attended school regularly and the social "
-    "worker visited the family home on several occasions during the assessment "
-    "period while the father maintained that contact had been positive and the "
-    "guardian agreed"
-).split()
-
-
-def perf_document(words: int = 15000, seed: int = 1) -> str:
-    rng = random.Random(seed)
-    paragraphs: list[str] = []
-    total = 0
-    while total < words:
-        body = " ".join(rng.choice(WORDS) for _ in range(110)).capitalize()
-        paragraphs.append(
-            f"{body}. The review on 13th of July 2026 in Leeds was attended by "
-            "Dr Smith, NHS number 943 476 5919, postcode LS1 4AP, "
-            "phone 0113 496 0000, aged 34."
-        )
-        total += 130
-    return "\n\n".join(paragraphs)
 
 
 def rss_mb() -> float:

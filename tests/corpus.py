@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import random
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -70,3 +71,26 @@ def score(doc: CorpusDocument, hits: list[Hit]) -> dict[HitKind, Counts]:
         counts[kind].fp += found[key] - matched
         counts[kind].fn += expected[key] - matched
     return counts
+
+
+WORDS = (
+    "the mother reported that the child attended school regularly and the social "
+    "worker visited the family home on several occasions during the assessment "
+    "period while the father maintained that contact had been positive and the "
+    "guardian agreed"
+).split()
+
+
+def perf_document(words: int = 15000, seed: int = 1) -> str:
+    rng = random.Random(seed)
+    paragraphs: list[str] = []
+    total = 0
+    while total < words:
+        body = " ".join(rng.choice(WORDS) for _ in range(110)).capitalize()
+        paragraphs.append(
+            f"{body}. The review on 13th of July 2026 in Leeds was attended by "
+            "Dr Smith, NHS number 943 476 5919, postcode LS1 4AP, "
+            "phone 0113 496 0000, aged 34."
+        )
+        total += 130
+    return "\n\n".join(paragraphs)
