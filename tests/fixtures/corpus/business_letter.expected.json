@@ -1,0 +1,6 @@
+{
+  "allowlist": ["Dr Ian Brown", "IDB Experts Ltd"],
+  "placeholder_patterns": [],
+  "expected": [],
+  "must_not_report": ["Dr Ian Brown", "IDB Experts Ltd"]
+}

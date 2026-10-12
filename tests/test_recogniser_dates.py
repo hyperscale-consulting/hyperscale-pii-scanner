@@ -27,6 +27,9 @@ from tests.helpers import matches
         ("seen on 2026-07-13", "2026-07-13"),
         ("seen in July 2026", "July 2026"),
         ("seen in JULY 2026", "JULY 2026"),
+        ("seen on 13/07/2026.", "13/07/2026"),
+        ("seen on 2026-07-13.", "2026-07-13"),
+        ("(DOB 14.3.19).", "14.3.19"),
     ],
 )
 def test_uk_date_positive(text: str, expected: str):
@@ -68,6 +71,8 @@ def test_textual_dates_score_higher_than_numeric():
         ("born in March 2019", "March 2019"),
         ("Birth date - 14/03/2019", "14/03/2019"),
         ("date of birth is recorded as\n14/03/2019 on the form", "14/03/2019"),
+        ("The youngest was born on 21 January 2024.", "21 January 2024"),
+        ("DOB 14/03/2019.", "14/03/2019"),
     ],
 )
 def test_date_of_birth_positive(text: str, expected: str):

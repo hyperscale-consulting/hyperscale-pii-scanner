@@ -1,0 +1,30 @@
+{
+  "allowlist": [],
+  "placeholder_patterns": [],
+  "expected": [
+    {"kind": "case_reference", "text": "ZC24C50123"},
+    {"kind": "location", "text": "Leeds"},
+    {"kind": "case_reference", "text": "[2026] EWFC 12"},
+    {"kind": "person", "text": "Priya Nair"},
+    {"kind": "person", "text": "Mark Ellison"},
+    {"kind": "date", "text": "Tuesday 7 July 2026"},
+    {"kind": "location", "text": "Tower Hamlets"},
+    {"kind": "person", "text": "Chloe Barker"},
+    {"kind": "age", "text": "aged 27"},
+    {"kind": "person", "text": "Tyler"},
+    {"kind": "age", "text": "8 years old"},
+    {"kind": "organisation", "text": "Olga Primary School"},
+    {"kind": "date_of_birth", "text": "21 January 2024"},
+    {"kind": "person", "text": "Chloe"},
+    {"kind": "person", "text": "Ryan Mackie"},
+    {"kind": "phone", "text": "07700 123456"},
+    {"kind": "date", "text": "03/07/2026"},
+    {"kind": "national_insurance_number", "text": "AB 12 34 56 C"},
+    {"kind": "organisation", "text": "Hackney Council"},
+    {"kind": "person", "text": "Tom Reed"},
+    {"kind": "phone", "text": "020 7946 0958"},
+    {"kind": "url", "text": "https://www.example.org/cases/12345"},
+    {"kind": "case_reference", "text": "T20247123"}
+  ],
+  "must_not_report": []
+}

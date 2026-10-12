@@ -12,7 +12,8 @@ from .uk_date import ANY_DATE
 
 LABEL = r"(?:d\.?\s?o\.?\s?b\.?|date\s+of\s+birth|birth\s*date|born(?:\s+on|\s+in)?)"
 PATTERN = re.compile(
-    rf"(?<!\w){LABEL}(?!\w)[\s\S]{{0,25}}?(?<![\w/.-])({ANY_DATE})(?![\w/.-])",
+    rf"(?<!\w){LABEL}(?!\w)[\s\S]{{0,25}}?"
+    rf"(?<![\w/-])(?<!\d\.)({ANY_DATE})(?![\w/-])(?!\.\d)",
     re.IGNORECASE,
 )
 SCORE = 0.9

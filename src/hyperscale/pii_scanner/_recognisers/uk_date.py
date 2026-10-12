@@ -38,7 +38,9 @@ class UkDateRecognizer(PatternRecognizer):
         Pattern("textual month day year", rf"\b{TEXTUAL_MDY}\b", 0.85),
         Pattern("month year", rf"\b{MONTH_YEAR}\b", 0.6),
         Pattern(
-            "numeric day month year", rf"(?<![\d/.-]){NUMERIC_DMY}(?![\d/.-])", 0.6
+            "numeric day month year",
+            rf"(?<![\d/-])(?<!\d\.){NUMERIC_DMY}(?![\d/-])(?!\.\d)",
+            0.6,
         ),
         Pattern("iso date", rf"(?<![\d-]){ISO}(?![\d-])", 0.6),
     ]

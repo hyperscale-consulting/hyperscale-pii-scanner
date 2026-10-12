@@ -1,0 +1,10 @@
+{
+  "allowlist": [],
+  "placeholder_patterns": ["\\b[A-Z]{3,}\\d[A-Z]{1,3}\\b", "\\([A-Z][A-Z ]+\\d?\\)"],
+  "expected": [],
+  "must_not_report": [
+    "MOTHER1FN", "MOTHER1SN", "FATHER2FN", "FATHER2SN", "CHILD3FN", "SIBLING1FN", "NEIGHBOUR2FN",
+    "CHAIR1FN", "CHAIR1SN", "(LOCAL AUTHORITY)", "(SCHOOL2)", "(SCHOOL1)", "(HEALTH VISITING TEAM)",
+    "(FOSTER CARER 1)", "(CONTACT CENTRE)", "(POLICE FORCE)", "(GP SURGERY)"
+  ]
+}

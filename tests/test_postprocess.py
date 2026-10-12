@@ -12,6 +12,7 @@ from hyperscale.pii_scanner._postprocess import resolve_overlaps
 from hyperscale.pii_scanner._postprocess import suppress
 from hyperscale.pii_scanner._postprocess import suppression_spans
 from hyperscale.pii_scanner._postprocess import to_candidates
+from hyperscale.pii_scanner._postprocess import trim
 
 
 def _result(
@@ -99,9 +100,10 @@ def test_suppression_spans_whole_word_case_insensitive_and_patterns():
 def test_suppress_drops_contained_hits_only():
     spans = [(10, 22)]
     inside = _cand(HitKind.PERSON, 13, 22)  # "IAN BROWN" inside "DR IAN BROWN"
-    straddling = _cand(HitKind.PERSON, 13, 30)
-    outside = _cand(HitKind.PERSON, 40, 45)
-    assert suppress([inside, straddling, outside], spans) == [straddling, outside]
+    text = "Report by DR IAN BROWN. MOTHER2FN met (LOCAL AUTHORITY). Browning Road."
+    straddling = _cand(HitKind.PERSON, 13, 30)  # "IAN BROWN. MOTHER"
+    outside = _cand(HitKind.PERSON, 57, 65)  # "Browning"
+    assert suppress(text, [inside, straddling, outside], spans) == [straddling, outside]
 
 
 def test_build_hits_fills_text_and_sorts():
@@ -129,3 +131,38 @@ def test_allowlist_entry_with_regex_metacharacters_is_literal():
     )
     assert spans == [(0, 20)]
     assert re.escape("(") in re.escape("(UK)")
+
+
+def test_candidate_beaten_by_a_span_that_later_loses_is_still_kept():
+    # "12 Station Parade, Harrogate, HG1 1AA": spaCy ORG "Harrogate, HG1" beats
+    # the gazetteer "Harrogate" by length, then loses to the postcode. The
+    # location must survive.
+    org = _cand(HitKind.ORGANISATION, 19, 33, 0.85)
+    loc = _cand(HitKind.LOCATION, 19, 28, 0.9)
+    postcode = _cand(HitKind.POSTCODE, 30, 37, 0.6)
+    assert resolve_overlaps([org, loc, postcode]) == [loc, postcode]
+
+
+def test_trim_strips_unbalanced_leading_paren_and_trailing_punctuation():
+    text = "call (07700 123456) or see https://example.org/x. Email a@b.org, thanks"
+    phone = _cand(HitKind.PHONE, 5, 18)  # "(07700 123456"
+    url = _cand(HitKind.URL, 27, 49)  # "https://example.org/x."
+    email = _cand(HitKind.EMAIL, 56, 64)  # "a@b.org,"
+    person = _cand(HitKind.PERSON, 0, 5)  # untouched kinds keep their span
+    trimmed = trim(text, [phone, url, email, person])
+    assert [text[c.start : c.end] for c in trimmed] == [
+        "07700 123456",
+        "https://example.org/x",
+        "a@b.org",
+        "call ",
+    ]
+
+
+def test_suppress_drops_hit_whose_only_uncovered_tokens_are_lowercase():
+    text = "MOTHER2FN MOTHER2SN and FATHER1FN FATHER1SN met MOTHER2FN Jones"
+    spans = suppression_spans(
+        text, allowlist=[], placeholder_patterns=[r"\b[A-Z]{3,}\d[A-Z]{1,3}\b"]
+    )
+    merged = _cand(HitKind.PERSON, 0, 43)  # placeholders joined by "and"
+    leak = _cand(HitKind.PERSON, 48, 63)  # "MOTHER2FN Jones"
+    assert suppress(text, [merged, leak], spans) == [leak]

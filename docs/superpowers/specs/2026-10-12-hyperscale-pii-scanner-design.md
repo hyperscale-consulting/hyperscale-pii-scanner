@@ -314,7 +314,9 @@ Applied in `_postprocess.py` in this order, on the Presidio results for the
 whole text:
 
 1. Map entity type to `HitKind`; drop anything not in the table above.
-2. Drop results with score below 0.3.
+2. Drop results with score below 0.3. Tidy phone, URL and email spans by
+   removing an unbalanced leading `(` and trailing `.,;:)` characters that the
+   upstream matchers include (`(07700 123456`, `example.org/x.`).
 3. Resolve overlaps. Hits are processed in order of start then descending
    length. When two hits overlap:
    - a structured kind beats a model kind, where structured kinds are
@@ -326,9 +328,14 @@ whole text:
      member of `HitKind`.
 4. Suppress. Compute spans over the text for every whole-word,
    case-insensitive occurrence of each allowlist entry and every match of each
-   placeholder pattern. Drop any hit whose span lies entirely within one of
-   those spans. This is applied after recognition so a hit is treated the
-   same regardless of which recogniser produced it.
+   placeholder pattern. Drop any hit in which every token containing a
+   capital letter or a digit lies within one of those spans. A hit whose span
+   lies entirely within a suppression span is therefore dropped, and so is a
+   model span that merged several placeholders with lowercase joining words
+   (`MOTHER2FN MOTHER2SN and FATHER1FN FATHER1SN`), while a hit with an
+   uncovered capitalised token (`MOTHER2FN Jones`) is reported. This is
+   applied after recognition so a hit is treated the same regardless of
+   which recogniser produced it.
 5. Sort by start then end and build `Hit` objects.
 
 Allowlist entries are compared after `str.strip()`; empty entries are

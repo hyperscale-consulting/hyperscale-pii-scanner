@@ -10,6 +10,7 @@ from ._postprocess import resolve_overlaps
 from ._postprocess import suppress
 from ._postprocess import suppression_spans
 from ._postprocess import to_candidates
+from ._postprocess import trim
 from ._types import Hit
 
 
@@ -34,6 +35,6 @@ def scan(
     if not text.strip():
         return []
     results = analyze(text)
-    candidates = resolve_overlaps(to_candidates(results))
+    candidates = resolve_overlaps(trim(text, to_candidates(results)))
     spans = suppression_spans(text, allow, patterns)
-    return build_hits(text, suppress(candidates, spans))
+    return build_hits(text, suppress(text, candidates, spans))

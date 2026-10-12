@@ -87,17 +87,43 @@ def _overlaps(a: Candidate, b: Candidate) -> bool:
 
 
 def resolve_overlaps(candidates: Iterable[Candidate]) -> list[Candidate]:
-    """Keep one candidate per overlapping group using the spec's priority rules."""
+    """Keep one candidate per overlapping group using the spec's priority rules.
+
+    Candidates are taken best-first, so a span that loses to a stronger
+    neighbour never drags down a weaker one it merely happened to overlap.
+    """
     kept: list[Candidate] = []
-    for candidate in sorted(candidates, key=lambda c: (c.start, -(c.end - c.start))):
-        conflicts = [k for k in kept if _overlaps(k, candidate)]
-        if not conflicts:
-            kept.append(candidate)
-            continue
-        if all(_rank(candidate) > _rank(other) for other in conflicts):
-            kept = [k for k in kept if k not in conflicts]
+    best_first = sorted(
+        candidates, key=lambda c: (_rank(c), -c.start, -c.end), reverse=True
+    )
+    for candidate in best_first:
+        if not any(_overlaps(candidate, k) for k in kept):
             kept.append(candidate)
     return sorted(kept, key=lambda c: (c.start, c.end))
+
+
+_TRIM_KINDS = frozenset({HitKind.PHONE, HitKind.URL, HitKind.EMAIL})
+_TRAILING = ".,;:)"
+
+
+def trim(text: str, candidates: Iterable[Candidate]) -> list[Candidate]:
+    """Tidy phone, URL and email spans: drop an unbalanced leading "(" and trailing
+    punctuation that the upstream matchers include ("(07700 123456", "example.org.")."""
+    out: list[Candidate] = []
+    for c in candidates:
+        if c.kind not in _TRIM_KINDS:
+            out.append(c)
+            continue
+        start, end = c.start, c.end
+        while end > start and text[end - 1] in _TRAILING:
+            if text[end - 1] == ")" and "(" in text[start:end]:
+                break
+            end -= 1
+        while start < end and text[start] == "(" and ")" not in text[start:end]:
+            start += 1
+        if end > start:
+            out.append(Candidate(c.kind, start, end, c.score, c.recogniser))
+    return out
 
 
 def suppression_spans(
@@ -126,16 +152,36 @@ def suppression_spans(
     return spans
 
 
+_WORD = re.compile(r"\w+")
+
+
+def _is_suppressed(
+    text: str, candidate: Candidate, spans: list[tuple[int, int]]
+) -> bool:
+    """Whether allowlist or placeholder spans cover the candidate.
+
+    A hit that touches a suppression span is suppressed when every token with a
+    capital letter or digit lies inside one. Lowercase joining words ("and") do
+    not rescue a hit made only of placeholders; a capitalised leak ("MOTHER2FN
+    Jones") does. A hit touching no span is never suppressed.
+    """
+    touching = [(s, e) for s, e in spans if s < candidate.end and candidate.start < e]
+    if not touching:
+        return False
+    for token in _WORD.finditer(text, candidate.start, candidate.end):
+        covered = any(s <= token.start() and token.end() <= e for s, e in touching)
+        word = token.group()
+        if not covered and any(ch.isupper() or ch.isdigit() for ch in word):
+            return False
+    return True
+
+
 def suppress(
-    candidates: Iterable[Candidate], spans: Iterable[tuple[int, int]]
+    text: str, candidates: Iterable[Candidate], spans: Iterable[tuple[int, int]]
 ) -> list[Candidate]:
-    """Drop candidates whose span lies entirely within a suppression span."""
+    """Drop candidates covered by allowlist or placeholder spans."""
     span_list = list(spans)
-    return [
-        c
-        for c in candidates
-        if not any(start <= c.start and c.end <= end for start, end in span_list)
-    ]
+    return [c for c in candidates if not _is_suppressed(text, c, span_list)]
 
 
 def build_hits(text: str, candidates: Iterable[Candidate]) -> list[Hit]:

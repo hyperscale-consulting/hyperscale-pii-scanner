@@ -80,3 +80,10 @@ def test_whitespace_only_allowlist_entries_are_ignored():
     assert (
         suppression_spans("Jane", allowlist=["  ", ""], placeholder_patterns=[]) == []
     )
+
+
+def test_scan_trims_phone_in_parentheses_and_url_before_full_stop():
+    hits = scan("Call her (07700 123456). See https://www.example.org/cases/12345.")
+    found = {h.kind: h.text for h in hits}
+    assert found[HitKind.PHONE] == "07700 123456"
+    assert found[HitKind.URL] == "https://www.example.org/cases/12345"

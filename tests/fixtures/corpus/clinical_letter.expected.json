@@ -1,0 +1,29 @@
+{
+  "allowlist": [],
+  "placeholder_patterns": [],
+  "expected": [
+    {"kind": "organisation", "text": "Westfield Medical Practice"},
+    {"kind": "location", "text": "Harrogate"},
+    {"kind": "location", "text": "Harrogate"},
+    {"kind": "postcode", "text": "HG1 1AA"},
+    {"kind": "postcode", "text": "HG2 0NA"},
+    {"kind": "phone", "text": "01423 496000"},
+    {"kind": "date", "text": "13th of July 2026"},
+    {"kind": "person", "text": "Anjali Patel"},
+    {"kind": "person", "text": "Amelia Thornton"},
+    {"kind": "date_of_birth", "text": "02/11/1991"},
+    {"kind": "nhs_number", "text": "398 259 7919"},
+    {"kind": "age", "text": "34-year-old"},
+    {"kind": "date", "text": "9 July 2026"},
+    {"kind": "organisation", "text": "Rossett School"},
+    {"kind": "person", "text": "Daniel Okafor"},
+    {"kind": "phone", "text": "07911 123456"},
+    {"kind": "email", "text": "amelia.thornton@example.org"},
+    {"kind": "person", "text": "Mrs Janet Thornton"},
+    {"kind": "location", "text": "Knaresborough"},
+    {"kind": "date", "text": "March 2015"},
+    {"kind": "national_insurance_number", "text": "JG 20 31 97 A"},
+    {"kind": "person", "text": "Dr Sunita Rao"}
+  ],
+  "must_not_report": []
+}
