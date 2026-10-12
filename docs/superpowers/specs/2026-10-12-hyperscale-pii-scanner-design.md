@@ -120,7 +120,8 @@ single line suitable for audit logs, for example
 - `text` is a `str`. Empty text returns an empty list without loading the model.
 - `allowlist` is an iterable of strings. `placeholder_patterns` is an iterable
   of regular expression strings compiled with the `re` module; an invalid
-  pattern raises `ValueError` before any scanning.
+  pattern raises `ValueError` before any scanning. Passing a single `str` for
+  either raises `TypeError`.
 - Returns hits sorted by `start` then `end`, non-overlapping, each with
   `score >= 0.3`.
 - Thread-safe. Calls serialise on an internal lock.
@@ -139,6 +140,8 @@ single line suitable for audit logs, for example
 
 - The only configuration point. Accepts a spaCy package name or a path to a
   model directory. Raises `RuntimeError` if the engine has already been built.
+  A package name that is not installed raises `RuntimeError` at the first
+  scan (and from `scanner_version()`); the library never lets spaCy download.
 - Default is the vendored `en_core_web_md` directory inside the package.
 
 `__version__` is read from package metadata.
@@ -159,9 +162,13 @@ doc.segments          # list[Segment(start, end, label)]
 doc.locate(hit.start) # "paragraph 14" | "table 2, row 3, cell 1" | "header 1" | "sheet Results, cell B20"
 ```
 
-- Word: body paragraphs and tables in document order, then each section's
-  header and footer paragraphs. Footnotes, comments and text boxes are not
-  read, and the README says so.
+- Word: every paragraph under the body in document order, found by walking
+  the XML so that content controls and nested tables are included; a
+  paragraph inside a table cell is labelled by its innermost table, row and
+  cell. Then each section's header and footer, plus first-page and even-page
+  variants when the document enables them, including tables inside them,
+  skipping parts linked to the previous section. Footnotes, endnotes,
+  comments and text boxes are not read, and the README says so.
 - Excel: every non-empty cell, sheet by sheet in workbook order, row-major,
   using cached values rather than formulas. Each cell is its own segment.
 - Untrusted input: the source is rejected with `ValueError` if larger than

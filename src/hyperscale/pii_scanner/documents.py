@@ -12,6 +12,7 @@ import io
 import os
 import zipfile
 from dataclasses import dataclass
+from typing import cast
 from typing import Literal
 
 # openpyxl uses lxml with its own entity-safe parser when lxml is present
@@ -25,7 +26,13 @@ except ImportError as exc:  # pragma: no cover - exercised only without the extr
         "uv add 'hyperscale-pii-scanner[documents]'"
     ) from exc
 
+from docx.document import Document as DocumentObject
+from docx.oxml.document import CT_Document
+from docx.oxml.text.paragraph import CT_P
+from docx.oxml.xmlchemy import BaseOxmlElement
+from docx.section import Section
 from docx.text.paragraph import Paragraph
+from docx.types import ProvidesStoryPart
 
 MAX_BYTES = 50 * 1024 * 1024
 MAX_UNCOMPRESSED_BYTES = 250 * 1024 * 1024
@@ -108,28 +115,100 @@ class _Builder:
         return ExtractedText(SEPARATOR.join(self.parts), tuple(self.segments))
 
 
+_W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+
+
+def _walk_wordml(
+    root: BaseOxmlElement,
+    parent: ProvidesStoryPart,
+    builder: _Builder,
+    *,
+    paragraph_label: str | None,
+    table_prefix: str,
+) -> None:
+    """Add every paragraph under ``root`` in document order.
+
+    Walking the XML (rather than python-docx's block iterators) reaches
+    paragraphs inside content controls and nested tables. Body paragraphs are
+    numbered unless ``paragraph_label`` is given (headers and footers use one
+    label). A paragraph inside a table cell is labelled by its innermost table,
+    row and cell; merged cells appear once because the walk follows the XML,
+    not the grid.
+    """
+    paragraph_number = 0
+    table_numbers: dict[str, int] = {}
+    tree = root.getroottree()
+    for p in root.iter(_W + "p"):
+        cell = row = table = None
+        for ancestor in p.iterancestors():
+            if ancestor is root:
+                break
+            if cell is None and ancestor.tag == _W + "tc":
+                cell = ancestor
+            elif cell is not None and row is None and ancestor.tag == _W + "tr":
+                row = ancestor
+            elif row is not None and ancestor.tag == _W + "tbl":
+                table = ancestor
+                break
+        text = Paragraph(cast("CT_P", p), parent).text
+        if table is None or row is None or cell is None:
+            paragraph_number += 1
+            label = paragraph_label or f"paragraph {paragraph_number}"
+            builder.add(text, label)
+            continue
+        key = tree.getpath(table)
+        number = table_numbers.setdefault(key, len(table_numbers) + 1)
+        row_number = table.findall(_W + "tr").index(row) + 1
+        cell_number = row.findall(_W + "tc").index(cell) + 1
+        builder.add(
+            text, f"{table_prefix}table {number}, row {row_number}, cell {cell_number}"
+        )
+
+
+def _header_footer_parts(
+    document: DocumentObject, section_number: int, section: Section
+):
+    """(label, part) for every header and footer this section defines."""
+    even = document.settings.odd_and_even_pages_header_footer
+    first = section.different_first_page_header_footer
+    candidates = [
+        (f"header {section_number}", section.header),
+        (f"footer {section_number}", section.footer),
+    ]
+    if first:
+        candidates.append(
+            (f"first-page header {section_number}", section.first_page_header)
+        )
+        candidates.append(
+            (f"first-page footer {section_number}", section.first_page_footer)
+        )
+    if even:
+        candidates.append(
+            (f"even-page header {section_number}", section.even_page_header)
+        )
+        candidates.append(
+            (f"even-page footer {section_number}", section.even_page_footer)
+        )
+    # A part linked to the previous section repeats that section's content.
+    return [
+        (label, part) for label, part in candidates if not part.is_linked_to_previous
+    ]
+
+
 def _extract_docx(data: bytes) -> ExtractedText:
     builder = _Builder()
     document = docx.Document(io.BytesIO(data))
-    paragraph_number = 0
-    table_number = 0
-    for item in document.iter_inner_content():
-        if isinstance(item, Paragraph):
-            paragraph_number += 1
-            builder.add(item.text, f"paragraph {paragraph_number}")
-        else:
-            table_number += 1
-            for row_number, row in enumerate(item.rows, start=1):
-                for cell_number, cell in enumerate(row.cells, start=1):
-                    builder.add(
-                        cell.text,
-                        f"table {table_number}, row {row_number}, cell {cell_number}",
-                    )
+    body = cast("CT_Document", document.element).body
+    _walk_wordml(body, document, builder, paragraph_label=None, table_prefix="")
     for section_number, section in enumerate(document.sections, start=1):
-        for paragraph in section.header.paragraphs:
-            builder.add(paragraph.text, f"header {section_number}")
-        for paragraph in section.footer.paragraphs:
-            builder.add(paragraph.text, f"footer {section_number}")
+        for label, part in _header_footer_parts(document, section_number, section):
+            _walk_wordml(
+                part.part.element,
+                part,
+                builder,
+                paragraph_label=label,
+                table_prefix=f"{label}, ",
+            )
     return builder.build()
 
 

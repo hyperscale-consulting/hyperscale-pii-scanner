@@ -143,3 +143,50 @@ def test_openpyxl_uses_defusedxml():
     import openpyxl.xml
 
     assert openpyxl.xml.DEFUSEDXML is True
+
+
+def test_docx_first_page_header_header_table_content_control_and_nested_table():
+    from docx.oxml import parse_xml
+    from docx.oxml.ns import nsdecls
+    from docx.oxml.ns import qn
+    from docx.shared import Inches
+
+    document = docx.Document()
+    document.add_paragraph("Body one.")
+    section = document.sections[0]
+    section.different_first_page_header_footer = True
+    section.first_page_header.paragraphs[0].text = "Patient: Jane Smith"
+    header_table = section.header.add_table(rows=1, cols=1, width=Inches(2))
+    header_table.cell(0, 0).text = "Letterhead: Bob Jones"
+    outer = document.add_table(rows=1, cols=1)
+    inner = outer.cell(0, 0).add_table(rows=1, cols=1)
+    inner.cell(0, 0).text = "Nested: Priya Nair"
+    sdt = parse_xml(
+        f"<w:sdt {nsdecls('w')}><w:sdtContent><w:p><w:r><w:t>"
+        "Control: Tom Reed</w:t></w:r></w:p></w:sdtContent></w:sdt>"
+    )
+    body = document.element.find(qn("w:body"))
+    assert body is not None
+    body.insert(len(body) - 1, sdt)
+    buf = io.BytesIO()
+    document.save(buf)
+    doc = extract_text(buf.getvalue(), kind="docx")
+    assert doc.locate(doc.text.index("Jane Smith")) == "first-page header 1"
+    assert doc.locate(doc.text.index("Bob Jones")) == "header 1, table 1, row 1, cell 1"
+    assert "Priya Nair" in doc.text
+    assert doc.locate(doc.text.index("Tom Reed")) == "paragraph 2"
+
+
+def test_docx_linked_headers_and_merged_cells_are_not_duplicated():
+    document = docx.Document()
+    document.sections[0].header.paragraphs[0].text = "Shared header Jane Smith"
+    document.add_paragraph("First section.")
+    document.add_section()
+    document.add_paragraph("Second section.")
+    table = document.add_table(rows=1, cols=2)
+    table.cell(0, 0).merge(table.cell(0, 1)).text = "Merged Bob Jones"
+    buf = io.BytesIO()
+    document.save(buf)
+    doc = extract_text(buf.getvalue(), kind="docx")
+    assert doc.text.count("Jane Smith") == 1
+    assert doc.text.count("Bob Jones") == 1

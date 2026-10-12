@@ -28,6 +28,12 @@ def scan(
     """
     if language != "en":
         raise ValueError(f"unsupported language {language!r}; only 'en' is supported")
+    if isinstance(allowlist, str):
+        raise TypeError("allowlist must be an iterable of strings, not a single str")
+    if isinstance(placeholder_patterns, str):
+        raise TypeError(
+            "placeholder_patterns must be an iterable of patterns, not a single str"
+        )
     allow = [entry.strip() for entry in allowlist if entry.strip()]
     patterns = list(placeholder_patterns)
     # Validate patterns up front so a bad pattern fails before the model loads.

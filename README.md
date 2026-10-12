@@ -89,6 +89,8 @@ str(scanner_version())
 - `scanner_version()` returns the library, Presidio, spaCy and model versions
   for audit logs. It does not load the model.
 - `language` accepts only `"en"`. Any other value raises `ValueError`.
+- `allowlist` and `placeholder_patterns` must be iterables of strings; passing a
+  single string raises `TypeError` rather than silently iterating its characters.
 - The model loads once per process on the first non-empty scan (about 1.5 s).
   `scan` is safe to call from multiple threads; calls are serialised on a lock,
   so use processes for parallelism.
@@ -133,8 +135,12 @@ for hit in hits:
     )  # "paragraph 14", "sheet Results, cell B20"
 ```
 
-Word: body paragraphs and tables in order, then section headers and footers.
-Footnotes, comments and text boxes are not read. Excel: every non-empty cell,
+Word: every paragraph in the body in document order, including paragraphs
+inside tables, nested tables and content controls (labelled by their innermost
+table, row and cell), then each section's headers and footers, including
+first-page and even-page variants and tables inside them. A header linked to
+the previous section is read once. Footnotes, endnotes, comments and text
+boxes are not read. Excel: every non-empty cell,
 sheet by sheet, using cached values rather than formulas. Files are untrusted
 input: a 50 MB size cap, a declared-uncompressed-size cap of 250 MB checked
 before parsing, XML entity resolution disabled in python-docx, an entity-safe
@@ -179,6 +185,11 @@ Timing and memory, Apple M-series laptop, model already loaded:
 The test suite asserts the scan stays under 5 s locally and 10 s on the slower
 CI runner.
 
+Scan time grows with the number of hits and, for spaCy's tokeniser, with
+pathological punctuation runs (thousands of consecutive brackets). Scans
+serialise on one lock per process, so cap upload sizes in the calling app and
+scan large spreadsheets sheet by sheet rather than as one text.
+
 ## Configuration
 
 There is one configuration point, for the spaCy model:
@@ -190,7 +201,8 @@ configure(model="en_core_web_lg")  # a package name, or a path to a model direct
 ```
 
 Call it before the first scan (for example in a Django `AppConfig.ready()`);
-it raises `RuntimeError` afterwards. The large model is about 400 MB and is not
+it raises `RuntimeError` afterwards. A package name that is not installed
+raises `RuntimeError` at the first scan; the library never downloads a model. The large model is about 400 MB and is not
 on PyPI; install it with
 `uv add https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.8.0/en_core_web_lg-3.8.0-py3-none-any.whl`.
 

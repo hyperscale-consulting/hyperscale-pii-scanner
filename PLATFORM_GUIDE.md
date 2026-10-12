@@ -49,6 +49,8 @@ document or that author. It may not auto-confirm hits.
   skipped, timed out, or satisfied by a second automated pass.
 - **Word, Excel and plain text only.** PDF and scanned images are not supported
   unless the design converts them to text first, and OCR errors reduce detection.
+- **Size.** Scans run one at a time per process and slow down on very large or
+  pathological text. Cap upload size and scan a spreadsheet sheet by sheet.
 - **Audit.** Record the scanner version string with each review so the result
   can be reproduced.
 - **Never describe the result as anonymised.** Describe it as reviewed.

@@ -166,3 +166,21 @@ def test_suppress_drops_hit_whose_only_uncovered_tokens_are_lowercase():
     merged = _cand(HitKind.PERSON, 0, 43)  # placeholders joined by "and"
     leak = _cand(HitKind.PERSON, 48, 63)  # "MOTHER2FN Jones"
     assert suppress(text, [merged, leak], spans) == [leak]
+
+
+def test_resolve_overlaps_and_suppress_scale_to_many_candidates():
+    import time
+
+    count = 20_000
+    cands = [_cand(HitKind.DATE, i * 12, i * 12 + 10, 0.6) for i in range(count)]
+    cands += [_cand(HitKind.PERSON, i * 12 + 2, i * 12 + 6, 0.85) for i in range(count)]
+    spans = [(i * 12 + 1, i * 12 + 3) for i in range(0, count, 7)]
+    text = "A" * (count * 12)
+    started = time.perf_counter()
+    kept = resolve_overlaps(cands)
+    survivors = suppress(text, kept, spans)
+    elapsed = time.perf_counter() - started
+    assert len(kept) == count
+    assert all(c.kind == HitKind.DATE for c in kept)
+    assert len(survivors) == count
+    assert elapsed < 2.0, f"took {elapsed:.2f}s"

@@ -87,3 +87,16 @@ def test_scan_trims_phone_in_parentheses_and_url_before_full_stop():
     found = {h.kind: h.text for h in hits}
     assert found[HitKind.PHONE] == "07700 123456"
     assert found[HitKind.URL] == "https://www.example.org/cases/12345"
+
+
+def test_facilities_are_reported_as_locations():
+    hits = scan("She was seen at Heathrow Airport and later near the Humber Bridge.")
+    found = {h.text for h in hits if h.kind == HitKind.LOCATION}
+    assert "Heathrow Airport" in found
+
+
+def test_scan_rejects_bare_string_allowlist_and_patterns():
+    with pytest.raises(TypeError, match="allowlist"):
+        scan("Jane Smith", allowlist="Dr Ian Brown")  # type: ignore[arg-type]
+    with pytest.raises(TypeError, match="placeholder_patterns"):
+        scan("Jane Smith", placeholder_patterns=r"\bX\d\b")  # type: ignore[arg-type]

@@ -7,13 +7,18 @@ import os
 import threading
 from dataclasses import dataclass
 from dataclasses import field
+from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as dist_version
 from pathlib import Path
 
+import spacy.util
 from presidio_analyzer import AnalyzerEngine
 from presidio_analyzer import RecognizerResult
 from presidio_analyzer.nlp_engine import NerModelConfiguration
 from presidio_analyzer.nlp_engine import SpacyNlpEngine
+from presidio_analyzer.nlp_engine.ner_model_configuration import (
+    MODEL_TO_PRESIDIO_ENTITY_MAPPING,
+)
 
 from ._recognisers import build_registry
 from ._types import ScannerVersion
@@ -32,7 +37,6 @@ LABELS_TO_IGNORE = [
     "CARDINAL",
     "DATE",
     "EVENT",
-    "FAC",
     "LANGUAGE",
     "LAW",
     "MONEY",
@@ -44,6 +48,9 @@ LABELS_TO_IGNORE = [
     "TIME",
     "WORK_OF_ART",
 ]
+# Presidio's default mapping has no entry for spaCy's FAC (airports, bridges,
+# named buildings); the spec reports those as locations.
+ENTITY_MAPPING: dict[str, str] = {**MODEL_TO_PRESIDIO_ENTITY_MAPPING, "FAC": "LOCATION"}
 
 
 @dataclass
@@ -81,16 +88,32 @@ def reset_for_tests() -> None:
         _state.model = DEFAULT_MODEL_PATH
 
 
-def _build_engine() -> AnalyzerEngine:
-    model = _state.model
+def _is_path(model: str | os.PathLike[str]) -> bool:
+    ref = os.fspath(model)
+    return isinstance(model, os.PathLike) or os.sep in ref or "/" in ref
+
+
+def _check_model_available(model: str | os.PathLike[str]) -> str:
+    """Return the model reference, refusing anything spaCy would try to download."""
     model_ref = os.fspath(model)
-    if isinstance(model, os.PathLike) or os.sep in model_ref:
+    if _is_path(model):
         if not Path(model_ref).is_dir():
             raise FileNotFoundError(f"spaCy model directory not found: {model_ref}")
+    elif not spacy.util.is_package(model_ref):
+        raise RuntimeError(
+            f"spaCy model package {model_ref!r} is not installed; install it or pass "
+            "the path of a model directory to configure(). Nothing is downloaded."
+        )
+    return model_ref
+
+
+def _build_engine() -> AnalyzerEngine:
+    model_ref = _check_model_available(_state.model)
     nlp_engine = SpacyNlpEngine(
         models=[{"lang_code": "en", "model_name": model_ref}],
         ner_model_configuration=NerModelConfiguration(
-            labels_to_ignore=LABELS_TO_IGNORE
+            labels_to_ignore=LABELS_TO_IGNORE,
+            model_to_presidio_entity_mapping=ENTITY_MAPPING,
         ),
     )
     nlp_engine.load()
@@ -127,7 +150,13 @@ def _model_identity() -> tuple[str, str]:
     if meta_path.is_file():
         meta = json.loads(meta_path.read_text(encoding="utf-8"))
         return f"{meta['lang']}_{meta['name']}", str(meta["version"])
-    return model_ref, dist_version(model_ref)
+    try:
+        return model_ref, dist_version(model_ref)
+    except PackageNotFoundError as exc:
+        raise RuntimeError(
+            f"spaCy model package {model_ref!r} is not installed; install it or pass "
+            "the path of a model directory to configure()."
+        ) from exc
 
 
 def scanner_version() -> ScannerVersion:

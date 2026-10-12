@@ -77,6 +77,7 @@ markers = ["perf: timing tests that need the model loaded"]
 
 [dependency-groups]
 dev = [
+    "lxml-stubs>=0.5.1",
     "pyright>=1.1.414",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",

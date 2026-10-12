@@ -80,3 +80,23 @@ def test_engine_is_built_once_under_concurrency(fresh_engine: None):
     for t in threads:
         t.join()
     assert len(set(seen)) == 1
+
+
+def test_unknown_model_package_fails_before_any_download(
+    fresh_engine: None, monkeypatch: pytest.MonkeyPatch
+):
+    def refuse(*args: object, **kwargs: object) -> None:
+        raise AssertionError("network access attempted")
+
+    monkeypatch.setattr(socket, "socket", refuse)
+    monkeypatch.setattr(socket, "getaddrinfo", refuse)
+    monkeypatch.setattr(socket, "create_connection", refuse)
+    configure(model="en_core_web_zz")
+    with pytest.raises(RuntimeError, match="not installed"):
+        _engine.analyze("Jane Smith")
+
+
+def test_scanner_version_with_unknown_package_raises_runtime_error(fresh_engine: None):
+    configure(model="en_core_web_zz")
+    with pytest.raises(RuntimeError, match="not installed"):
+        scanner_version()

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import bisect
 import re
 from collections.abc import Iterable
 from dataclasses import dataclass
@@ -82,24 +83,28 @@ def _rank(candidate: Candidate) -> tuple[int, int, int, float, int]:
     )
 
 
-def _overlaps(a: Candidate, b: Candidate) -> bool:
-    return a.start < b.end and b.start < a.end
-
-
 def resolve_overlaps(candidates: Iterable[Candidate]) -> list[Candidate]:
     """Keep one candidate per overlapping group using the spec's priority rules.
 
     Candidates are taken best-first, so a span that loses to a stronger
     neighbour never drags down a weaker one it merely happened to overlap.
+    Kept spans are disjoint and held sorted by start, so each candidate is
+    checked only against its two neighbours.
     """
     kept: list[Candidate] = []
+    starts: list[int] = []
     best_first = sorted(
         candidates, key=lambda c: (_rank(c), -c.start, -c.end), reverse=True
     )
     for candidate in best_first:
-        if not any(_overlaps(candidate, k) for k in kept):
-            kept.append(candidate)
-    return sorted(kept, key=lambda c: (c.start, c.end))
+        index = bisect.bisect_left(starts, candidate.start)
+        if index > 0 and kept[index - 1].end > candidate.start:
+            continue
+        if index < len(kept) and kept[index].start < candidate.end:
+            continue
+        kept.insert(index, candidate)
+        starts.insert(index, candidate.start)
+    return kept
 
 
 _TRIM_KINDS = frozenset({HitKind.PHONE, HitKind.URL, HitKind.EMAIL})
@@ -155,9 +160,22 @@ def suppression_spans(
 _WORD = re.compile(r"\w+")
 
 
-def _is_suppressed(
-    text: str, candidate: Candidate, spans: list[tuple[int, int]]
-) -> bool:
+class _SpanIndex:
+    """Suppression spans sorted by start, for neighbourhood lookups."""
+
+    def __init__(self, spans: Iterable[tuple[int, int]]) -> None:
+        self.spans = sorted(spans)
+        self.starts = [s for s, _ in self.spans]
+        self.longest = max((e - s for s, e in self.spans), default=0)
+
+    def touching(self, start: int, end: int) -> list[tuple[int, int]]:
+        """Spans that overlap [start, end)."""
+        low = bisect.bisect_left(self.starts, start - self.longest)
+        high = bisect.bisect_left(self.starts, end)
+        return [(s, e) for s, e in self.spans[low:high] if e > start]
+
+
+def _is_suppressed(text: str, candidate: Candidate, index: _SpanIndex) -> bool:
     """Whether allowlist or placeholder spans cover the candidate.
 
     A hit that touches a suppression span is suppressed when every token with a
@@ -165,7 +183,7 @@ def _is_suppressed(
     not rescue a hit made only of placeholders; a capitalised leak ("MOTHER2FN
     Jones") does. A hit touching no span is never suppressed.
     """
-    touching = [(s, e) for s, e in spans if s < candidate.end and candidate.start < e]
+    touching = index.touching(candidate.start, candidate.end)
     if not touching:
         return False
     for token in _WORD.finditer(text, candidate.start, candidate.end):
@@ -180,8 +198,8 @@ def suppress(
     text: str, candidates: Iterable[Candidate], spans: Iterable[tuple[int, int]]
 ) -> list[Candidate]:
     """Drop candidates covered by allowlist or placeholder spans."""
-    span_list = list(spans)
-    return [c for c in candidates if not _is_suppressed(text, c, span_list)]
+    index = _SpanIndex(spans)
+    return [c for c in candidates if not _is_suppressed(text, c, index)]
 
 
 def build_hits(text: str, candidates: Iterable[Candidate]) -> list[Hit]:
