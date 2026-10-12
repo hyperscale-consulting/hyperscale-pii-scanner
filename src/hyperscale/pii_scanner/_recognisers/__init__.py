@@ -10,6 +10,7 @@ from presidio_analyzer import EntityRecognizer
 from presidio_analyzer import RecognizerRegistry
 from presidio_analyzer.predefined_recognizers import SpacyRecognizer
 
+from .age import AgeRecognizer
 from .date_of_birth import DateOfBirthRecognizer
 from .uk_date import UkDateRecognizer
 
@@ -21,6 +22,7 @@ def build_recognisers() -> list[EntityRecognizer]:
         SpacyRecognizer(supported_entities=SPACY_ENTITIES),
         UkDateRecognizer(),
         DateOfBirthRecognizer(),
+        AgeRecognizer(),
     ]
 
 
