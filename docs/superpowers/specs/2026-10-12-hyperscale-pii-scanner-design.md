@@ -166,9 +166,9 @@ doc.locate(hit.start) # "paragraph 14" | "table 2, row 3, cell 1" | "header 1" |
   using cached values rather than formulas. Each cell is its own segment.
 - Untrusted input: the source is rejected with `ValueError` if larger than
   50 MB, if it is not a zip file, or if the sum of the declared uncompressed
-  sizes of its members exceeds 250 MB. python-docx's parser has entity
-  resolution disabled; openpyxl uses defusedxml when it is installed, and the
-  extra installs it. Parsing errors from the underlying libraries are wrapped
+  sizes of its members exceeds 250 MB. python-docx's parser has entity resolution disabled; openpyxl parses with
+  an entity-safe lxml parser and uses defusedxml for streaming parses when it
+  is installed, and the extra installs it. Parsing errors from the underlying libraries are wrapped
   in `ValueError`.
 
 ## Engine
@@ -268,22 +268,29 @@ Numbers above 120 are not ages. The hit span is the whole phrase. Score 0.7.
 Loads `data/uk_places.txt` once (one name per line, sorted, UTF-8). Matches
 whole words, case-sensitive, longest first, including multi-word names such
 as `Newcastle upon Tyne` and `Tower Hamlets`. Score 0.6, recogniser name
-`UkGazetteerRecognizer`. Implementation is a single compiled alternation
-over the sorted list; if the perf test shows it is too slow, switch to spaCy's
-`PhraseMatcher` over `nlp_artifacts.tokens`, which is also deterministic.
+`UkGazetteerRecognizer`. Implementation indexes names by their first word,
+scans the text for capitalised tokens, and checks the candidate names
+(longest first) at each token, so the cost is linear in the text length.
 
 The build script:
 
 1. Downloads `GB.zip` from GeoNames and reads `GB.txt`.
-2. Keeps feature class `P` entries with population of at least 1,000, and all
-   `ADM2` and `ADM3` entries (counties, unitary authorities, districts and
-   London boroughs). Strips the prefixes `London Borough of`, `Royal Borough
-   of`, `City of`, `Borough of`, `County of` and `District of`, and keeps
-   only the stripped name (`Hackney`, not `London Borough of Hackney`).
+2. Keeps feature class `P` entries with population of at least 1,000, all
+   `ADM2` entries (counties and unitary authorities) and the `ADM3` entries
+   inside Greater London (admin2 code `GLA`, the London boroughs). Strips the
+   prefixes `London Borough of`, `Royal Borough of`, `Metropolitan Borough
+   of`, `City and Borough of`, `Borough of`, `City of`, `County of`,
+   `District of` and `Sir`, and the suffixes `District`, `Borough` and
+   `County Borough`, keeping only the stripped name (`Hackney`, not `London
+   Borough of Hackney`).
 3. Excludes any single-word name whose lower-cased form has a Zipf frequency
-   of 4.0 or more in the `wordfreq` English list (common words such as
-   `Street`, `Sale`, `Hope`, `March`, `Reading`), then applies
-   `scripts/gazetteer_stoplist.txt` and adds `scripts/gazetteer_extra.txt`.
+   of 4.5 or more in the `wordfreq` English list (common words such as
+   `Street`, `Sale`, `Hope`, `March`, `Reading`) unless it is listed in
+   `scripts/gazetteer_extra.txt` (famous places that are also frequent words:
+   `London`, `York`, `Leeds`), then applies `scripts/gazetteer_stoplist.txt`.
+   Frequency alone cannot separate a common word from a famous place, so the
+   two hand-maintained lists are part of the rule. The script prints the
+   names it dropped so they can be reviewed.
 4. Writes the sorted, de-duplicated list with a header comment recording the
    GeoNames extract date, the thresholds and the attribution.
 
