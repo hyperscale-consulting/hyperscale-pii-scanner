@@ -1,0 +1,3953 @@
+# UK place names for hyperscale-pii-scanner.
+# Source: GeoNames GB extract (https://download.geonames.org/export/dump/GB.zip), licensed CC BY 4.0,
+# data from GeoNames (https://www.geonames.org/).
+# Extract date: 2026-10-12. Rules: populated places with population >= 1000,
+# ADM2 areas, London ADM3 boroughs; single-word names with wordfreq Zipf >= 4.5 dropped unless in scripts/gazetteer_extra.txt;
+# scripts/gazetteer_stoplist.txt applied. Regenerate with `make gazetteer`.
+# Entries: 3946
+Abbey Road
+Abbey Wood
+Abbots Bromley
+Abbots Langley
+Abbotskerswell
+Abbotts Ann
+Aberaeron
+Abercanaid
+Abercarn
+Aberchirder
+Abercynon
+Aberdare
+Aberdeen
+Aberdeen City
+Aberdeenshire
+Aberdour
+Aberfan
+Aberfeldy
+Aberford
+Abergavenny
+Abergele
+Aberkenfig
+Aberlady
+Abernethy
+Aberporth
+Abertillery
+Abertridwr
+Aberystwyth
+Abingdon
+Aboyne
+Abram
+Abridge
+Accrington
+Acle
+Acocks Green
+Acomb
+Acton
+Adderbury
+Addiebrownhill
+Addingham
+Addlestone
+Adlington
+Adwick le Street
+Ahoghill
+Aigburth
+Airdrie
+Airth
+Albrighton
+Alcester
+Alconbury
+Aldbourne
+Aldbrough
+Aldeburgh
+Alderbury
+Alderholt
+Alderley Edge
+Aldershot
+Aldridge
+Alexandria
+Alford
+Alfreton
+Allanton
+Allerton
+Allhallows
+Alloa
+Almondbank
+Almondsbury
+Alness
+Alnwick
+Alresford
+Alrewas
+Alsager
+Alston
+Althorne
+Alton
+Altrincham
+Alva
+Alvechurch
+Alveley
+Alveston
+Alyth
+Amble
+Ambleside
+Ambrosden
+Amersham
+Amersham on the Hill
+Amesbury
+Amlwch
+Ammanford
+Ampthill
+Ancaster
+Andover
+Anglesey
+Angus
+Anna Valley
+Annahilt
+Annalong
+Annan
+Annfield Plain
+Anstey
+Anstruther
+Antrim
+Antrim and Newtownabbey
+Appleby-in-Westmorland
+Appledore
+Appleton Thorn
+Appley Bridge
+Apsley
+Arbroath
+Archway
+Ardersier
+Ardglass
+Ardingly
+Ardrishaig
+Ardrossan
+Ards and North Down
+Argyll and Bute
+Arlesey
+Armadale
+Armagh
+Armagh City Banbridge and Craigavon
+Armitage
+Armthorpe
+Arne
+Arnside
+Arundel
+Ascot
+Asfordby
+Ash Vale
+Ashbourne
+Ashburton
+Ashby-de-la-Zouch
+Ashford
+Ashgill
+Ashill
+Ashington
+Ashtead
+Ashton Keynes
+Ashton in Makerfield
+Ashton-under-Lyne
+Ashurst
+Ashwell
+Askam in Furness
+Askern
+Aslockton
+Aspatria
+Aston
+Aston Clinton
+Aston-on-Trent
+Astwood Bank
+Atherstone
+Atherton
+Attleborough
+Atworth
+Auchinleck
+Auchterarder
+Auchtermuchty
+Auckley
+Audlem
+Audley
+Aughnacloy
+Aveley
+Avening
+Aviemore
+Awsworth
+Axbridge
+Axminster
+Aylesbury
+Aylesford
+Aylesham
+Aylestone
+Aylsham
+Ayr
+Babworth
+Backworth
+Bacton
+Bacup
+Badsey
+Bagillt
+Bagshot
+Bagworth
+Baildon
+Bakewell
+Bala
+Balcombe
+Baldock
+Balerno
+Balfron
+Balham
+Balintore
+Ballater
+Ballinamallard
+Ballingry
+Ballintoy Harbour
+Balloch
+Ballycastle
+Ballyclare
+Ballygowan
+Ballykelly
+Ballymena
+Ballymoney
+Ballynahinch
+Ballypatrick
+Ballywalter
+Balmedie
+Balmullo
+Balsall Common
+Balsham
+Bampton
+Banbridge
+Banbury
+Banchory
+Banff
+Bangor
+Banham
+Bankfoot
+Banknock
+Bannockburn
+Banstead
+Banwell
+Bar Hill
+Barbican
+Bardney
+Bardsey
+Bargeddie
+Bargoed
+Barham
+Barking and Dagenham
+Barkingside
+Barkisland
+Barlaston
+Barlborough
+Barlby
+Barlestone
+Barmouth
+Barnard Castle
+Barnburgh
+Barnet
+Barnetby le Wold
+Barnham
+Barnoldswick
+Barnsbury
+Barnsley
+Barnstaple
+Barnt Green
+Barnwood
+Barra
+Barrhead
+Barrow in Furness
+Barrow upon Humber
+Barrow upon Soar
+Barrowby
+Barrowford
+Bartley Green
+Barton on Sea
+Barton under Needwood
+Barton upon Humber
+Barton-le-Clay
+Baschurch
+Basford
+Basildon
+Basingstoke
+Baslow
+Bassingbourn
+Bassingham
+Baston
+Batchworth
+Bath and North East Somerset
+Bathgate
+Batley
+Battersea
+Bawtry
+Bay Horse
+Bayston Hill
+Bayswater
+Beaconsfield
+Beaminster
+Bearsden
+Beauly
+Beaumaris
+Bebington
+Beccles
+Beckenham
+Beckingham
+Becontree
+Bedale
+Beddau
+Bedford
+Bedlington
+Bedlinog
+Bedwas
+Bedworth
+Beeford
+Beighton
+Beith
+Belbroughton
+Belfast
+Belford
+Belgrave
+Bellaghy
+Belle Vale
+Bellingham
+Bellsbank
+Bellshill
+Belmont
+Belper
+Belsize Park
+Belton
+Belvedere
+Bembridge
+Bempton
+Benbecula
+Benllech
+Bennetts End
+Benson
+Bentley
+Benwell
+Bere Alston
+Bere Regis
+Berkhamsted
+Bernards Heath
+Berwick-Upon-Tweed
+Bethesda
+Bethnal Green
+Betley
+Betws
+Betws-y-Coed
+Beverley
+Bewbush
+Bewdley
+Bexhill-on-Sea
+Bexley
+Bicester
+Bickley
+Bicknacre
+Biddenden
+Biddulph
+Bideford
+Bidford-on-Avon
+Bierton
+Biggar
+Biggin Hill
+Biggleswade
+Bildeston
+Billericay
+Billingborough
+Billinge
+Billingham
+Billinghay
+Billingshurst
+Billington
+Bilsdale
+Bilsthorpe
+Bilston
+Bingham
+Bingley
+Birchington-on-Sea
+Bircotes
+Birdham
+Birdwell
+Birkenhead
+Birmingham
+Birstall
+Bishop Auckland
+Bishop Middleham
+Bishop Sutton
+Bishop's Castle
+Bishopbriggs
+Bishops Cleeve
+Bishops Lydeard
+Bishops Stortford
+Bishops Waltham
+Bishopsteignton
+Bishopstoke
+Bishopston
+Bishopsworth
+Bishopthorpe
+Bishopton
+Blaby
+Black Notley
+Blackburn
+Blackburn with Darwen
+Blackheath
+Blackheath Westcombe
+Blackley
+Blackmoorfoot
+Blackpool
+Blackridge
+Blackrod
+Blackwall
+Blackwell
+Blackwood
+Blacon
+Blaenau Gwent
+Blaenau-Ffestiniog
+Blaenavon
+Blaengwynfi
+Blagdon
+Blairgowrie and Rattray
+Blandford Forum
+Blantyre
+Blaydon-on-Tyne
+Blean
+Bletchingley
+Bletchley
+Blewbury
+Blidworth
+Blindley Heath
+Blisworth
+Blockley
+Bloxham
+Bloxwich
+Bluntisham
+Blyth
+Blyton
+Boddam
+Bodedern
+Bodelwyddan
+Bodle Street
+Bodmin
+Bognor Regis
+Bollington
+Bolsover
+Bolton
+Bolton le Sands
+Bolton upon Dearne
+Bonhill
+Bonnybridge
+Bonnyrigg
+Boosbeck
+Bootle
+Bordon
+Boreham
+Borehamwood
+Borough Green
+Boroughbridge
+Borrowash
+Borth
+Bosham
+Boston
+Boston Spa
+Botesdale
+Bothwell
+Botley
+Bottesford
+Bottisham
+Boughton
+Bourne End
+Bournemouth
+Bourton
+Bourton on the Water
+Bovey Tracey
+Bovingdon
+Bovington Camp
+Bow Street
+Bowburn
+Bowdon
+Bowthorpe
+Boxgrove
+Boxted
+Bozeat
+Bo’ness
+Bracebridge Heath
+Brackley
+Bracknell
+Bracknell Forest
+Bradfield
+Bradford
+Bradford on Avon
+Brading
+Bradninch
+Bradwell
+Braintree
+Bramcote
+Bramford
+Bramhall
+Bramham
+Bramhope
+Bramley
+Brampton
+Brandesburton
+Bransgore
+Branston
+Bratton
+Braunston
+Braunstone
+Braunton
+Brayton
+Bream
+Brechin
+Brecon
+Bredbury
+Bredon
+Brenchley
+Brent
+Brent Knoll
+Brentford
+Brentwood
+Brewood
+Bricket Wood
+Bridge of Allan
+Bridge of Earn
+Bridge of Weir
+Bridgend
+Bridgend county borough
+Bridgnorth
+Bridgwater
+Bridlington
+Bridport
+Brierfield
+Brierley Hill
+Brigg
+Brighouse
+Brighstone
+Brightlingsea
+Brighton
+Brighton and Hove
+Brightons
+Brigstock
+Brill
+Brimscombe
+Brinklow
+Brinscall
+Bristol
+Briston
+Briton Ferry
+Britwell
+Brixham
+Brixton
+Brixton Hill
+Brixworth
+Broad Blunsdon
+Broadfield
+Broadstairs
+Broadstone
+Broadwater
+Brockenhurst
+Brockley
+Bromborough
+Bromham
+Bromley
+Brompton
+Bromsgrove
+Bromyard
+Brooke
+Brookmans Park
+Brora
+Broseley
+Brotton
+Brough
+Broughshane
+Broughton
+Broughton Astley
+Brownhills
+Broxbourne
+Broxburn
+Brundall
+Bruton
+Brymbo
+Brynamman
+Brynmawr
+Brynna
+Buckden
+Buckfastleigh
+Buckhaven
+Buckhurst Hill
+Buckie
+Buckingham
+Buckinghamshire
+Buckley
+Bude
+Budleigh Salterton
+Bugbrooke
+Bugle
+Builth Wells
+Bulford
+Bulphan
+Bunbury
+Bungay
+Buntingford
+Burbage
+Bures Saint Mary
+Burford
+Burgess Hill
+Burgh Heath
+Burgh by Sands
+Burgh le Marsh
+Burghead
+Burham
+Burley
+Burley in Wharfedale
+Burnage
+Burneside
+Burngreave
+Burnham
+Burnham-on-Crouch
+Burnham-on-Sea
+Burniston
+Burnley
+Burnopfield
+Burntisland
+Burntwood
+Burpham
+Burringham
+Burry Port
+Burscough
+Bursledon
+Burstwick
+Burton
+Burton Joyce
+Burton Latimer
+Burton on the Wolds
+Burton upon Stather
+Burton upon Trent
+Burtonwood
+Burwash
+Burwell
+Bury
+Bury St Edmunds
+Busby
+Bushey
+Bushmills
+Butterwick
+Buxted
+Buxton
+Byfield
+Byram
+Caddington
+Cadnam
+Caergwrle
+Caerleon
+Caernarfon
+Caerphilly
+Caerwent
+Cairneyhill
+Cairnryan
+Caister-on-Sea
+Caistor
+Calcot
+Calderbank
+Caldercruix
+Calderdale
+Caldicot
+Callander
+Callington
+Calne
+Calverton
+Camber
+Camberley
+Camblesforth
+Camborne
+Cambourne
+Cambridge
+Cambridgeshire
+Cambusbarron
+Cambuslang
+Camden
+Camden Town
+Cameley
+Camelford
+Camelon
+Campbeltown
+Campsall
+Canary Wharf
+Canewdon
+Canford Heath
+Canning Town
+Cannock
+Canonbury
+Canterbury
+Canvey Island
+Caol
+Capel
+Capel Saint Mary
+Capel le Ferne
+Carcroft
+Cardenden
+Cardiff
+Cardigan
+Cardross
+Carfin
+Carlisle
+Carluke
+Carmarthen
+Carmarthenshire
+Carmunnock
+Carnforth
+Carnlough
+Carnmoney
+Carnoustie
+Carnwath
+Carpenders Park
+Carrickfergus
+Carron
+Carronshore
+Carryduff
+Carshalton
+Carterton
+Castle Cary
+Castle Donington
+Castle Douglas
+Castle Hedingham
+Castle Vale
+Castledawson
+Castlederg
+Castleford
+Castlereagh
+Castlerock
+Castleside
+Castlewellan
+Castor
+Catcliffe
+Caterham
+Catford
+Caton
+Catrine
+Catterall
+Catterick
+Catterick Garrison
+Causeway Coast and Glens
+Cawood
+Cawston
+Caythorpe
+Cefn Cribwr
+Cemaes Bay
+Central Bedfordshire
+Ceredigion
+Chacewater
+Chadderton
+Chaddesden
+Chadwell Heath
+Chadwell St Mary
+Chafford Hundred
+Chagford
+Chalfont Saint Peter
+Chalfont St Giles
+Chalford
+Chalgrove
+Chalk Farm
+Chapel Allerton
+Chapel Saint Leonards
+Chapel en le Frith
+Chapelhall
+Chapeltown
+Chard
+Charfield
+Charing
+Charlbury
+Charlestown of Aberlour
+Charlton
+Charlton Kings
+Charlton Marshall
+Charminster
+Charmouth
+Chartham
+Charvil
+Chasetown
+Chatburn
+Chatham
+Chatteris
+Cheadle
+Cheadle Heath
+Cheadle Hulme
+Cheam
+Cheddar
+Cheddington
+Cheddleton
+Cheetham Hill
+Chelford
+Chelmsford
+Chelmsley Wood
+Chelsea
+Chelsfield
+Cheltenham
+Chepstow
+Cherry Burton
+Chertsey
+Chesham
+Chesham Bois
+Cheshire East
+Cheshire West and Chester
+Cheshunt
+Chessington
+Chester
+Chester-le-Street
+Chesterfield
+Chew Magna
+Chichester
+Chickerell
+Chicksands
+Chiddingfold
+Chigwell
+Chilcompton
+Child Okeford
+Childwall
+Chilwell
+Chilworth
+Chingford
+Chinley
+Chinnor
+Chippenham
+Chipping Campden
+Chipping Norton
+Chipping Ongar
+Chipping Sodbury
+Chipstead
+Chirk
+Chirnside
+Chiseldon
+Chislehurst
+Chiswell Green
+Chiswick
+Chobham
+Cholsey
+Choppington
+Chopwell
+Chorley
+Chorleywood
+Chorlton cum Hardy
+Christchurch
+Chryston
+Chudleigh
+Chudleigh Knighton
+Chulmleigh
+Church Fenton
+Church Street
+Church Stretton
+Churchdown
+Churchill
+Churt
+Cinderford
+Cirencester
+City of London
+City of Westminster
+Clackmannan
+Clackmannanshire
+Clacton-on-Sea
+Clapham
+Clapham Junction
+Clarborough
+Clare
+Clarkston
+Claydon
+Claypole
+Clayton West
+Clayton le Moors
+Clayton-le-Woods
+Cleator Moor
+Cleckheaton
+Cleethorpes
+Cleland
+Clenchwarton
+Cleobury Mortimer
+Clerkenwell
+Clevedon
+Cleveleys
+Cliffe
+Clitheroe
+Clophill
+Clowne
+Clutton
+Clydach
+Clydebank
+Coalburn
+Coalisland
+Coaltown of Balgonie
+Coalville
+Coatbridge
+Coates
+Cobham
+Cockenzie
+Cockermouth
+Cockfield
+Cockfosters
+Cockington
+Codicote
+Codsall
+Coedpoeth
+Cogenhoe
+Coggeshall
+Coity
+Colchester
+Cold Ash
+Cold Norton
+Colden Common
+Coldstream
+Coleford
+Coleraine
+Colerne
+Colinton
+Collier Row
+Collingham
+Colnbrook
+Colne
+Colsterworth
+Coltishall
+Colwich
+Colwyn Bay
+Colyton
+Combe Martin
+Comber
+Comberton
+Compton
+Comrie
+Congleton
+Congresbury
+Coningsby
+Conisbrough
+Connor
+Conon Bridge
+Consett
+Conwy
+Cookham
+Cookley
+Cookstown
+Copmanthorpe
+Copplestone
+Coppull
+Copthorne
+Corbridge
+Corby
+Corby Glen
+Corfe Castle
+Cornforth
+Cornholme
+Cornwall
+Corse
+Corsham
+Cosby
+Cosham
+Costessey
+Cotgrave
+Cottenham
+Cottesmore
+Cottingham
+Coulsdon
+Coundon
+Countesthorpe
+County Durham
+Coupar Angus
+Cove
+Coven
+Coventry
+Cowbit
+Cowbridge
+Cowdenbeath
+Cowes
+Cowfold
+Cowie
+Cowley
+Cowpen
+Cowplain
+Coxhoe
+Coylton
+Cradley Heath
+Craigavon
+Crail
+Cramlington
+Cranbrook
+Cranfield
+Cranford
+Cranham
+Cranleigh
+Cranwell
+Craven Arms
+Crawley
+Crawley Down
+Credenhill
+Crediton
+Creech Saint Michael
+Creswell
+Crewe
+Crewkerne
+Criccieth
+Crick
+Crickhowell
+Cricklade
+Cricklewood
+Crieff
+Cringleford
+Croeserw
+Croft
+Crofton
+Crofton Park
+Crofty
+Cromer
+Cromford
+Crondall
+Crook
+Cropwell Bishop
+Cross Hands
+Cross Hills
+Crossford
+Crossgar
+Crossgates
+Crosshouse
+Crossmaglen
+Croston
+Crouch End
+Crowborough
+Crowland
+Crowle
+Crowthorne
+Croxley Green
+Croxteth
+Croy
+Croydon
+Cruden Bay
+Crumlin
+Crumpsall
+Crynant
+Crystal Palace
+Cuckfield
+Cudworth
+Cuffley
+Culcheth
+Cullen
+Cullingworth
+Culloden
+Cullompton
+Cullybackey
+Culmore
+Cults
+Culverstone Green
+Cumbernauld
+Cumbria
+Cumnock
+Cunningham
+Cupar
+Curdworth
+Currie
+Curry Rivel
+Cushendall
+Cuxton
+Cwm
+Cwmafan
+Cwmbach
+Cwmbran
+Cwmtillery
+Dagenham
+Dalbeattie
+Dalgety Bay
+Dalkeith
+Dalmellington
+Dalmuir
+Dalry
+Dalrymple
+Dalserf
+Dalston
+Dalton in Furness
+Danbury
+Danby
+Danderhall
+Darenth
+Daresbury
+Darfield
+Darlaston
+Darlington
+Darras Hall
+Darrington
+Dartford
+Dartmouth
+Darton
+Darvel
+Darwen
+Datchet
+Datchworth
+Daventry
+Dawlish
+Deanshanger
+Dearham
+Debenham
+Deddington
+Dedham
+Deepcut
+Deeside
+Deganwy
+Deiniolen
+Delabole
+Delph
+Denbigh
+Denbighshire
+Denby Dale
+Denham
+Denholme
+Denmead
+Denny
+Dennyloanhead
+Denton
+Denton Holme
+Derby
+Derbyshire
+Deri
+Derry
+Derry City and Strabane
+Dersingham
+Desborough
+Desford
+Devizes
+Devon
+Dewsbury
+Deysbrook
+Dhekelia
+Dickens Heath
+Dickleburgh
+Didcot
+Didsbury
+Diggle
+Dinas Powys
+Dingle
+Dingwall
+Dinnington
+Disley
+Diss
+Distington
+Ditchingham
+Ditchling
+Ditton Hill
+Doagh
+Dobcross
+Dobwalls
+Doddington
+Dodworth
+Dolgellau
+Donaghadee
+Donaghcloney
+Doncaster
+Donington
+Donington le Heath
+Donisthorpe
+Donnington
+Dorchester
+Dorking
+Dormansland
+Dornoch
+Dorridge
+Dorset
+Doune
+Dove Holes
+Dover
+Dovercourt
+Doveridge
+Downham Market
+Downpatrick
+Downside
+Downton
+Draperstown
+Draycott
+Dreghorn
+Driffield
+Droitwich
+Dromore
+Dronfield
+Drongan
+Droylsden
+Drumnadrochit
+Drybrook
+Dubford
+Ducklington
+Dudley
+Duffield
+Dufftown
+Dukinfield
+Dulverton
+Dumbarton
+Dumfries
+Dumfries and Galloway
+Dunbar
+Dunblane
+Dunchurch
+Dundee
+Dundee City
+Dundonald
+Dundrum
+Dunfermline
+Dungannon
+Dungiven
+Dunholme
+Dunipace
+Dunkeld
+Dunkeswell
+Dunlop
+Dunloy
+Dunnington
+Dunoon
+Duns
+Dunstable
+Dunswell
+Duntocher
+Dunvant
+Durham
+Dursley
+Duxford
+Dyce
+Dyffryn Ardudwy
+Dymchurch
+Dyserth
+Eaglescliffe
+Eaglesham
+Ealing
+Ealing Common
+Earby
+Earith
+Earl Shilton
+Earls Barton
+Earls Colne
+Earls Court
+Earlsfield
+Earlston
+Earlswood
+Easington
+Easingwold
+East Ayrshire
+East Ayton
+East Barnet
+East Bergholt
+East Boldon
+East Bridgford
+East Calder
+East Chevington
+East Cowes
+East Dean
+East Dereham
+East Dulwich
+East Dunbartonshire
+East Grinstead
+East Hanney
+East Harling
+East Horsley
+East Keswick
+East Kilbride
+East Leake
+East Linton
+East Lothian
+East Markham
+East Molesey
+East Peckham
+East Rainton
+East Renfrewshire
+East Riding of Yorkshire
+East Sheen
+East Sussex
+East Tilbury
+East Wemyss
+East Whitburn
+East Wittering
+Eastbourne
+Eastchurch
+Eastington
+Eastleigh
+Easton
+Easton on the Hill
+Easton-in-Gordano
+Eastriggs
+Eastrington
+Eastry
+Eastwood
+Eaton Bray
+Eaton Socon
+Ebbw Vale
+Eccles
+Eccleshall
+Eccleston
+Eckington
+Edenbridge
+Edenfield
+Edgmond
+Edgware
+Edgwarebury
+Edgworth
+Edinburgh
+Edmonton
+Edwinstowe
+Egham
+Eglinton
+Egremont
+Eight Ash Green
+Eilean Siar
+Elderslie
+Elgin
+Elland
+Ellesmere
+Ellesmere Port Town
+Ellon
+Elm Park
+Elmstead Market
+Elmswell
+Elsenham
+Elstead
+Elstree
+Elswick
+Eltham
+Embsay
+Emerson Park
+Emley
+Emneth
+Emsworth
+Enderby
+Endon
+Enfield
+Enfield Lock
+Enfield Town
+Enniskillen
+Epping
+Epsom
+Epworth
+Erith
+Errol
+Erskine
+Esher
+Essex
+Essington
+Eston
+Eton
+Eton Wick
+Ettington
+Etwall
+Euxton
+Evanton
+Evenwood
+Evercreech
+Eversley
+Evesham
+Evington
+Ewell
+Ewhurst
+Ewyas Harold
+Exeter
+Exhall
+Exminster
+Exmouth
+Exning
+Eyemouth
+Eynsford
+Eynsham
+Eythorne
+Faifley
+Failsworth
+Fair Oak
+Fairford
+Fairlands
+Fairlie
+Fairlight
+Fakenham
+Falkirk
+Falkland
+Fallin
+Fallowfield
+Falmouth
+Fareham
+Faringdon
+Farnborough
+Farndon
+Farnham
+Farnham Royal
+Farnsfield
+Farnworth
+Fauldhouse
+Faversham
+Fazakerley
+Fazeley
+Featherstone
+Felixstowe
+Felling
+Feltham
+Felton
+Feltwell
+Fenstanton
+Fenwick
+Fermanagh and Omagh
+Ferndale
+Ferndown
+Fernhill Heath
+Fernhurst
+Ferrybridge
+Ferryhill
+Fetcham
+Fife
+Filey
+Finchampstead
+Finchley
+Findern
+Findochty
+Findon
+Finedon
+Finningley
+Fintona
+Fishbourne
+Fishburn
+Fishguard
+Fishtoft
+Fitzwilliam
+Five Oak Green
+Fivemiletown
+Flackwell Heath
+Flamborough
+Fleckney
+Fleetville
+Fleetwood
+Flexbury
+Flimby
+Flimwell
+Flint
+Flintshire
+Flitwick
+Flockton
+Flookburgh
+Flore
+Fochabers
+Fochriw
+Folkestone
+Fontwell
+Fordham
+Fordingbridge
+Forest Hill
+Forest Row
+Forfar
+Formby
+Forres
+Fort William
+Fortrose
+Fortuneswell
+Foulridge
+Foulsham
+Four Crosses
+Four Lanes
+Four Marks
+Fowey
+Fowlmere
+Framlingham
+Frampton on Severn
+Fraserburgh
+Freckleton
+Fremington
+Freshwater
+Freuchie
+Friern Barnet
+Frimley
+Frimley Green
+Frinton-on-Sea
+Friockheim
+Friston
+Frizington
+Frodsham
+Frogmore
+Frome
+Fulbourn
+Fulham
+Full Sutton
+Fulwood
+Furnace Green
+Furze Platt
+Furzedown
+Fylde
+Gaerwen
+Gainford
+Gainsborough
+Galashiels
+Galgate
+Galston
+Gamlingay
+Garelochhead
+Garforth
+Gargrave
+Garsington
+Garstang
+Garston
+Garswood
+Gartcosh
+Garvagh
+Gateacre
+Gateshead
+Geddington
+Gedling
+Gedney Hill
+Gelligaer
+Gerrards Cross
+Giffnock
+Gilberdyke
+Gilfach Goch
+Gilford
+Gillingham
+Gillmoss
+Gilwern
+Gipsy Hill
+Girton
+Girvan
+Glanamman
+Glandwr
+Glapwell
+Glasgow
+Glasgow City
+Glastonbury
+Glazebury
+Glemsford
+Glen Parva
+Glenariff
+Glenavy
+Glenboig
+Glenfield
+Glenmavis
+Glenrothes
+Glinton
+Glossop
+Gloucester
+Gloucestershire
+Glusburn
+Glyn-neath
+Glyncorrwg
+Gnosall
+Gobowen
+Godalming
+Godmanchester
+Godshill
+Godstone
+Golborne
+Golders Green
+Golspie
+Goodmayes
+Goodwick
+Goole
+Goosnargh
+Goostrey
+Gorebridge
+Goring
+Goring-by-Sea
+Gorleston-on-Sea
+Gorseinon
+Gosberton
+Gosfield
+Gosforth
+Gosport
+Gossops Green
+Gotham
+Goudhurst
+Gourock
+Govilon
+Goxhill
+Grange Hill
+Grange-over-Sands
+Grangemouth
+Grantham
+Grantown on Spey
+Grappenhall
+Grassington
+Gravesend
+Grays
+Grayshott
+Greasby
+Great Amwell
+Great Ayton
+Great Bardfield
+Great Barford
+Great Barton
+Great Bedwyn
+Great Bentley
+Great Bookham
+Great Chesterford
+Great Corby
+Great Dunmow
+Great Eccleston
+Great Glen
+Great Gonerby
+Great Gransden
+Great Hanwood
+Great Harwood
+Great Haywood
+Great Horkesley
+Great Horwood
+Great Houghton
+Great Leighs
+Great Malvern
+Great Marton
+Great Missenden
+Great Paxton
+Great Sankey
+Great Torrington
+Great Wakering
+Great Waldingfield
+Great Wyrley
+Great Yarmouth
+Great Yeldham
+Greater London
+Greenfield
+Greenford
+Greenhill
+Greenhithe
+Greenisland
+Greenock
+Greenwich
+Gresford
+Gretna
+Greyabbey
+Grimethorpe
+Grimsby
+Grimston
+Griston
+Groby
+Gronant
+Groombridge
+Grovesend
+Grundisburgh
+Guilden Sutton
+Guildford
+Guilsfield
+Guisborough
+Guiseley
+Gullane
+Gunness
+Gunnislake
+Gwynedd
+Hackleton
+Hackney
+Haddenham
+Haddington
+Hadleigh
+Hadley
+Hadley Wood
+Hadlow
+Hadston
+Hagley
+Hailsham
+Hainault
+Hale Barns
+Halesowen
+Halesworth
+Halewood
+Halifax
+Halkirk
+Hallglen
+Halling
+Hallow
+Halstead
+Halton
+Haltwhistle
+Hamble-le-Rice
+Hambleton
+Hameldon Hill
+Hamilton
+Hammersmith and Fulham
+Hampshire
+Hampton
+Hampton Wick
+Hampton in Arden
+Handcross
+Hanslope
+Hanworth
+Hapton
+Harbury
+Hardingstone
+Hardwick Village
+Harefield
+Haringey
+Harlech
+Harlesden
+Harleston
+Harlington
+Harlow
+Harold Wood
+Harpenden
+Harpole
+Harrietsham
+Harringay
+Harrogate
+Harrold
+Harrow
+Harrow Road
+Harrow Weald
+Harrow on the Hill
+Harston
+Harthill
+Hartlebury
+Hartlepool
+Hartley
+Hartley Wintney
+Hartshill
+Hartwell
+Harvington
+Harwell
+Harwich
+Haslemere
+Haslingden
+Haslingfield
+Hassocks
+Hastings
+Haswell
+Hatch End
+Hatfield
+Hatfield Heath
+Hatfield Peverel
+Hatherleigh
+Hathern
+Hathersage
+Hatton
+Haughley
+Haughton Green
+Havant
+Haverfordwest
+Haverhill
+Haverigg
+Havering
+Hawarden
+Hawick
+Hawkhurst
+Hawkinge
+Haworth
+Haxby
+Haxey
+Haydock
+Haydon Bridge
+Hayes
+Hayfield
+Hayle
+Hayling Island
+Haywards Heath
+Hazel Grove
+Hazlerigg
+Heacham
+Head of Muir
+Headcorn
+Headstone
+Heage
+Heanor
+Heath and Reach
+Heathfield
+Heaton Chapel
+Heavitree
+Hebburn
+Hebden Bridge
+Heckington
+Heckmondwike
+Heddon on the Wall
+Hedge End
+Hedon
+Heighington
+Helensburgh
+Hellaby
+Hellifield
+Helmsley
+Helsby
+Helston
+Hemel Hempstead
+Hemingbrough
+Hemingford Grey
+Hemsby
+Hemsworth
+Hemyock
+Henfield
+Hengoed
+Henley in Arden
+Henley-on-Thames
+Henlow
+Henstridge
+Hereford
+Herefordshire
+Hermitage
+Herne Bay
+Herstmonceux
+Hertford
+Hertfordshire
+Heston
+Heswall
+Hethersett
+Hetton-Le-Hole
+Hexham
+Heysham
+Heywood
+Hibaldstow
+High Barnet
+High Bentham
+High Blantyre
+High Etherley
+High Halden
+High Halstow
+High Legh
+High Ongar
+High Peak
+High Valleyfield
+High Wycombe
+Higham Ferrers
+Highams Park
+Highbridge
+Highbury
+Highcoems
+Highgate
+Highland
+Highley
+Hightown
+Highworth
+Hillingdon
+Hillsborough
+Hillside
+Hilton
+Hinchley Wood
+Hinckley
+Hindhead
+Hindley
+Hingham
+Hinton
+Hirwaun
+Histon
+Hitchin
+Hockley
+Hockley Heath
+Hockwold cum Wilton
+Hoddesdon
+Holbeach
+Holbeck
+Holborn
+Holbrook
+Hollingworth
+Hollinwood
+Holloway
+Holmes Chapel
+Holmfirth
+Holmwood
+Holsworthy
+Holt
+Holton le Clay
+Holyhead
+Holytown
+Holywell
+Holywell Green
+Holywood
+Honeybourne
+Honiton
+Hoo
+Hook Norton
+Hoole
+Hope Valley
+Hopeman
+Hopton
+Horam
+Horbury
+Horley
+Horncastle
+Hornchurch
+Horndon on the Hill
+Horning
+Hornsea
+Hornsey
+Horrabridge
+Horsford
+Horsforth
+Horsham
+Horsmonden
+Horsted Keynes
+Horton
+Horton Kirby
+Horwich
+Houghton
+Houghton Conquest
+Houghton on the Hill
+Houghton-Le-Spring
+Hounslow
+Hove
+Hoveton
+How Wood
+Howden
+Howwood
+Hoylake
+Hoyland Nether
+Hucknall
+Huddersfield
+Hugh Town
+Hull
+Hulme
+Humberston
+Humberstone
+Huncote
+Hungerford
+Hunmanby
+Hunstanton
+Huntingdon
+Huntley
+Huntly
+Hunts Cross
+Huntspill
+Hunwick
+Hurstpierpoint
+Husbands Bosworth
+Huyton
+Hyde
+Hyde Heath
+Hyde Park
+Hythe
+Ibstock
+Ickenham
+Ilchester
+Ilford
+Ilfracombe
+Ilkeston
+Ilkley
+Ilminster
+Immingham
+Ince-in-Makerfield
+Inchinnan
+Inchture
+Ingatestone
+Ingleby Greenhow
+Ingleton
+Ingoldmells
+Ingrave
+Inkberrow
+Innerleithen
+Insch
+Inverbervie
+Inverclyde
+Invergordon
+Invergowrie
+Inverkeithing
+Inverkip
+Inverness
+Inverurie
+Ipplepen
+Ipswich
+Irchester
+Irlam
+Ironbridge
+Irthlingborough
+Irvine
+Irvinestown
+Isle Of Mull
+Isle of Arran
+Isle of Bute
+Isle of Cumbrae
+Isle of Islay
+Isle of Lewis
+Isle of North Uist
+Isle of South Uist
+Isle of Wight
+Isleham
+Isles of Scilly
+Isleworth
+Islington
+Istead Rise
+Iver
+Iver Heath
+Ivinghoe
+Ivington
+Ivybridge
+Iwade
+Ixworth
+Jarrow
+Jedburgh
+Jersey Farm
+Johnston
+Johnstone
+Jordanstown
+Keadby
+Keady
+Kearsley
+Kedington
+Keelby
+Keele
+Kegworth
+Keighley
+Kelloe
+Kelsall
+Kelso
+Kelty
+Kelvedon
+Kelvedon Hatch
+Kemnay
+Kempsey
+Kempston
+Kempston Hardwick
+Kemsing
+Kendal
+Kenilworth
+Kenley
+Kennington
+Kennoway
+Kensal Green
+Kensington
+Kensworth
+Kent
+Kenton
+Keresley
+Kesgrave
+Kessingland
+Keswick
+Kettering
+Ketton
+Kew
+Keyingham
+Keynsham
+Keyworth
+Kibworth Harcourt
+Kidbrooke
+Kidderminster
+Kidlington
+Kidsgrove
+Kidwelly
+Kilbarchan
+Kilbirnie
+Kilburn
+Kilcreggan
+Kilgetty
+Kilkeel
+Killamarsh
+Killearn
+Killyleagh
+Kilmacolm
+Kilmarnock
+Kilmaurs
+Kilrea
+Kilsby
+Kilsyth
+Kilwinning
+Kimberley
+Kimbolton
+Kimpton
+Kincardine
+Kineton
+King's Clipstone
+King's Cross
+King's Lynn
+Kinghorn
+Kinglassie
+Kings Hill
+Kings Langley
+Kings Sutton
+Kings Worthy
+Kingsbridge
+Kingsbury
+Kingsclere
+Kingskerswell
+Kingskettle
+Kingsley
+Kingsteignton
+Kingston Bagpuize
+Kingston upon Hull
+Kingston upon Thames
+Kingswells
+Kingswinford
+Kingswood
+Kington
+Kingussie
+Kinloss
+Kinross
+Kintbury
+Kintore
+Kinvere
+Kippax
+Kippen
+Kirby Muxloe
+Kircubbin
+Kirk Sandall
+Kirkburton
+Kirkby
+Kirkby Lonsdale
+Kirkby Stephen
+Kirkby in Ashfield
+Kirkbymoorside
+Kirkcaldy
+Kirkconnel
+Kirkcudbright
+Kirkdale
+Kirkham
+Kirkintilloch
+Kirkleatham
+Kirklees
+Kirkliston
+Kirknewton
+Kirkwall
+Kirriemuir
+Kirton
+Kirton in Lindsey
+Kislingbury
+Kiveton Park
+Knaphill
+Knaresborough
+Knebworth
+Knighton
+Knightsbridge and Belgravia
+Knottingley
+Knotty Ash
+Knowle
+Knowsley
+Knutsford
+Laceby
+Ladybank
+Ladywell
+Lakenheath
+Lamberhurst
+Lambeth
+Lambourn
+Lamesley
+Lamlash
+Lampeter
+Lanark
+Lancashire
+Lancaster
+Lancaster Gate
+Lanchester
+Lancing
+Landrake
+Langford
+Langham
+Langho
+Langholm
+Langley Green
+Langley Park
+Langport
+Langtoft
+Larbert
+Largs
+Lark Hill
+Larkfield
+Larkhall
+Larne
+Latchingdon and Snoreham
+Latchmere
+Lauder
+Launceston
+Laurencekirk
+Laurieston
+Lavendon
+Lavenham
+Layer de la Haye
+Leasingham
+Leatherhead
+Leavesden Green
+Lechlade
+Leconfield
+Ledbury
+Lee-on-the-Solent
+Leeds
+Leek Wootton
+Lees
+Leeswood
+Leicester
+Leicester Forest East
+Leicestershire
+Leigh
+Leighton Buzzard
+Leiston
+Lenham
+Lennoxtown
+Lenzie
+Leominster
+Lerwick
+Lesbury
+Lesmahagow
+Letchworth Garden City
+Letham
+Letterston
+Leuchars
+Leven
+Leverstock Green
+Lewes
+Lewisham
+Leyburn
+Leyland
+Leysdown-on-Sea
+Leyton
+Leytonstone
+Lhanbryde
+Lichfield
+Lidlington
+Lifton
+Lightwater
+Limavady
+Limehouse
+Limekilns
+Limpley Stoke
+Lincoln
+Lincolnshire
+Lingdale
+Lingfield
+Lingwood
+Linlithgow
+Linthwaite
+Linton
+Linton upon Ouse
+Linwood
+Liphook
+Lisburn
+Lisburn and Castlereagh
+Liskeard
+Lisnaskea
+Liss
+Litherland
+Little Amwell
+Little Bookham
+Little Chalfont
+Little Clacton
+Little Dunmow
+Little Eaton
+Little Hallingbury
+Little Hulton
+Little Lever
+Little Marlow
+Little Paxton
+Little Venice
+Little Weighton
+Littleborough
+Littlebourne
+Littlehampton
+Littleport
+Littlethorpe
+Liverpool
+Liversedge
+Livingston
+Llanberis
+Llanbradach
+Llandaff
+Llandeilo
+Llandovery
+Llandrindod Wells
+Llandudno
+Llandybie
+Llandysul
+Llanelli
+Llanerchymedd
+Llanfair Caereinion
+Llanfairfechan
+Llanfairpwllgwyngyll
+Llanfyllin
+Llangefni
+Llangeler
+Llangollen
+Llangynidr
+Llanharan
+Llanharry
+Llanidloes
+Llanilar
+Llanrug
+Llanrwst
+Llansantffraid Glan Conwy
+Llantrisant
+Llantwit Fardre
+Llantwit Major
+Llwynypia
+Loanhead
+Locharbriggs
+Lochgelly
+Lochgilphead
+Lochmaben
+Lochwinnoch
+Lockerbie
+Locking
+Loddon
+Lofthouse
+Loftus
+London
+London Colney
+Londonderry County Borough
+Long Ashton
+Long Bennington
+Long Buckby
+Long Clawson
+Long Crendon
+Long Ditton
+Long Eaton
+Long Itchington
+Long Lawford
+Long Melford
+Long Stratton
+Long Sutton
+Long Whatton
+Longdendale
+Longfield
+Longforgan
+Longhope
+Longhoughton
+Longniddry
+Longridge
+Longsight
+Longstanton
+Longton
+Longtown
+Longwick
+Lossiemouth
+Lostwithiel
+Loudwater
+Loughborough
+Loughton
+Louth
+Low Ackworth
+Low Bradley
+Low Etherley
+Lowdham
+Lower Brailes
+Lower Broadheath
+Lower Earley
+Lower Halstow
+Lower Kingswood
+Lowestoft
+Luddenden Foot
+Ludgershall
+Ludlow
+Lugwardine
+Luncarty
+Lundin Links
+Luton
+Lutterworth
+Lydbrook
+Lydd
+Lydiard Millicent
+Lydney
+Lyme Regis
+Lyminge
+Lymington
+Lymm
+Lympne
+Lympstone
+Lyndhurst
+Lyneham
+Lynemouth
+Lynton
+Lytchett Matravers
+Lytham St Annes
+Mablethorpe
+Macclesfield
+Macduff
+Machen
+Machynlleth
+Macmerry
+Maddiston
+Madeley
+Maesteg
+Maghera
+Magherafelt
+Magheralin
+Maghull
+Magor
+Maida Hill
+Maiden Newton
+Maidenbower
+Maidenhead
+Maidstone
+Maldon
+Malmesbury
+Malpas
+Maltby
+Malton
+Manby
+Manchester
+Manchester City Centre
+Manea
+Mangotsfield
+Manningtree
+Manor Park
+Mansfield
+Mansfield Woodhouse
+Manston
+Maple Cross
+Marazion
+Marcham
+Marchwiel
+Marchwood
+Marden
+Margate
+Market Bosworth
+Market Deeping
+Market Drayton
+Market Harborough
+Market Lavington
+Market Rasen
+Market Warsop
+Market Weighton
+Markfield
+Markinch
+Marks Tey
+Markyate
+Marlborough
+Marldon
+Marlow
+Marnhull
+Marple
+Marsden
+Marshalswick
+Marshfield
+Marske-by-the-Sea
+Marston
+Marston Moretaine
+Martham
+Martock
+Maryburgh
+Marylebone
+Maryport
+Masham
+Matlock
+Mattishall
+Mauchline
+Maulden
+Maxwellheugh
+Maybole
+Mayfield
+Mayford
+Mayland
+Measham
+Medway
+Meikle Earnock
+Melbourn
+Meldreth
+Melksham
+Melrose
+Meltham
+Meltham Mills
+Melton Mowbray
+Menai Bridge
+Mendip
+Menston
+Menstrie
+Meopham
+Meppershall
+Meriden
+Merriott
+Merrow
+Merstham
+Merthyr Tydfil
+Merton
+Messingham
+Metheringham
+Methil
+Methley
+Methven
+Mevagissey
+Mexborough
+Mickle Trafford
+Mickleton
+Mid Calder
+Mid Ulster
+Mid and East Antrim
+Middle Rasen
+Middle Winterslow
+Middlesbrough
+Middlestown
+Middleton
+Middlewich
+Midhurst
+Midlothian
+Midsomer Norton
+Milborne Port
+Milborne St Andrew
+Mildenhall
+Milford
+Milford Haven
+Milford on Sea
+Mill End
+Millhouse Green
+Millisle
+Millom
+Millport
+Milltimber
+Milnathort
+Milngavie
+Milnrow
+Milnthorpe
+Milton Keynes
+Milton of Campsie
+Milton of Leys
+Milverton
+Minchinhampton
+Minehead
+Minster Lovell
+Minsterley
+Mintlaw
+Mirfield
+Misterton
+Mistley
+Mitcham
+Mitcheldean
+Mobberley
+Modbury
+Moffat
+Moira
+Moneymore
+Monifieth
+Monk Fryston
+Monkhams
+Monmouth
+Monmouthshire
+Montrose
+Moodiesburn
+Moor Park
+Moray
+Morchard Bishop
+Morden
+Morecambe
+Moreton
+Moreton in Marsh
+Moretonhampstead
+Morley
+Morpeth
+Mortlake
+Mossblown
+Mossend
+Mossley
+Mossley Hill
+Mostyn
+Motcombe
+Motherwell
+Mottingham
+Moulton
+Moulton Chapel
+Mount Hawke
+Mountain Ash
+Mountsorrel
+Moy
+Much Hadham
+Much Wenlock
+Muir of Ord
+Muirhead
+Muirkirk
+Mulbarton
+Mullion
+Mundesley
+Mundford
+Murton
+Musselburgh
+Muswell Hill
+Mylor Bridge
+Mytchett
+Mytholmroyd
+Nafferton
+Nailsea
+Nailsworth
+Nairn
+Nanpean
+Nantwich
+Napsbury Park
+Narberth
+Narborough
+Nash Mills
+Navenby
+Neath
+Neath Port Talbot
+Necton
+Needham Market
+Needingworth
+Nefyn
+Neilston
+Neston
+Nether Edge
+Nether Heyford
+Nether Poppleton
+Nether Stowey
+Netheravon
+Netherlee
+Netherley
+Netherton
+Netley
+Nettleham
+New Alresford
+New Barnet
+New Basford
+New Buildings
+New Cross
+New Cumnock
+New Denham
+New Ferry
+New Greens
+New Malden
+New Marske
+New Mill
+New Mills
+New Milton
+New Pitsligo
+New Romney
+New Stevenston
+New Tredegar
+Newark on Trent
+Newarthill
+Newbiggin-by-the-Sea
+Newbold Verdon
+Newbridge
+Newburgh
+Newburn
+Newbury
+Newbury Park
+Newcastle
+Newcastle Emlyn
+Newcastle under Lyme
+Newcastle upon Tyne
+Newent
+Newham
+Newhaven
+Newick
+Newington
+Newmacher
+Newmains
+Newmarket
+Newmilns
+Newport
+Newport Pagnell
+Newport-on-Tay
+Newquay
+Newry
+Newry Mourne and Down
+Newton Abbot
+Newton Aycliffe
+Newton Ferrers
+Newton Longville
+Newton Mearns
+Newton Poppleford
+Newton Stewart
+Newton-le-Willows
+Newtonhill
+Newtonmore
+Newtown
+Newtown St Boswells
+Newtownabbey
+Newtownards
+Newtownhamilton
+Newtownstewart
+Neyland
+Nigg
+Ninfield
+Niton
+Norbiton
+Norbury
+Norfolk
+Normandy
+Norris Green
+North Anston
+North Ayrshire
+North Baddesley
+North Berwick
+North Cave
+North Collingham
+North Duffield
+North East Lincolnshire
+North Elmham
+North Ferriby
+North Kessock
+North Lanarkshire
+North Leigh
+North Lincolnshire
+North Newbald
+North Northamptonshire
+North Petherton
+North Queensferry
+North Shields
+North Somercotes
+North Somerset
+North Sunderland
+North Tawton
+North Thoresby
+North Tyneside
+North Walsham
+North Watford
+North Wootton
+North Yorkshire
+Northallerton
+Northam
+Northampton
+Northborough
+Northchurch
+Northiam
+Northleach
+Northolt
+Northop
+Northorpe
+Northumberland
+Northumberland Park
+Northwich
+Northwood
+Northwood Hills
+Norton
+Norton Canes
+Norwich
+Notting Hill
+Nottingham
+Nottinghamshire
+Nuneaton
+Nutfield
+Oadby
+Oakengates
+Oakham
+Oakington
+Oakley
+Oakwood
+Oban
+Ochiltree
+Odiham
+Ogmore Vale
+Okehampton
+Old Basing
+Old Harlow
+Old Kilpatrick
+Old Leake
+Old Swan
+Old Trafford
+Old Windsor
+Old Woking
+Oldbury
+Oldham
+Oldmeldrum
+Olney
+Olveston
+Omagh
+Orkney Islands
+Ormesby St Margaret
+Ormiston
+Ormskirk
+Orpington
+Orsett
+Orwell
+Ossett
+Osterley
+Oswestry
+Otford
+Otley
+Ottershaw
+Ottery St Mary
+Oughtibridge
+Oundle
+Outwell
+Overcombe
+Overstrand
+Overton
+Overtown
+Owston Ferry
+Oxenhope
+Oxford
+Oxfordshire
+Oxshott
+Oxted
+Paddock Wood
+Padiham
+Padstow
+Paignton
+Painswick
+Paisley
+Palmers Green
+Pangbourne
+Pannal
+Pant
+Papworth Everard
+Parbold
+Park Street
+Parkstone
+Partington
+Partridge Green
+Pateley Bridge
+Patna
+Patrington
+Pattingham
+Paulton
+Peacehaven
+Peasedown Saint John
+Peaslake
+Peckham
+Peebles
+Pegswood
+Pelsall
+Pelton
+Pembroke
+Pembroke Dock
+Pembrokeshire
+Pembury
+Pen-clawdd
+Penarth
+Pencader
+Pencaitland
+Pencoed
+Penicuik
+Penistone
+Penkridge
+Penmaenmawr
+Penparcau
+Penrhyndeudraeth
+Penrith
+Penryn
+Pensilva
+Pentre
+Pentyrch
+Penyffordd
+Penygroes
+Penzance
+Perranporth
+Perranwell
+Perry Vale
+Pershore
+Perth
+Perth and Kinross
+Peterborough
+Peterculter
+Peterhead
+Peterlee
+Petersfield
+Petworth
+Pevensey
+Pevensey Bay
+Pewsey
+Pickering
+Pilning
+Pilsley
+Pimlico
+Pimperne
+Pinchbeck
+Pinkneys Green
+Pinner
+Pinxton
+Pirbright
+Pirton
+Pitlochry
+Pitmedden
+Pitsea
+Pitstone
+Pittenweem
+Plains
+Plean
+Plumpton Green
+Plumstead
+Plymouth
+Plympton
+Plymstock
+Pocklington
+Polbeth
+Polesworth
+Polmont
+Polperro
+Polzeath
+Ponders End
+Pont Rhyd-y-cyff
+Pontarddulais
+Pontefract
+Ponteland
+Pontesbury
+Pontlliw
+Pontyates
+Pontyberem
+Pontyclun
+Pontycymer
+Pontypool
+Pontypridd
+Poole
+Poplar
+Poringland
+Porlock
+Port Bannatyne
+Port Erroll
+Port Glasgow
+Portadown
+Portaferry
+Portavogie
+Portglenone
+Porthcawl
+Porthleven
+Porthmadog
+Portishead
+Portknockie
+Portland
+Portlethen
+Portree
+Portrush
+Portscatho
+Portslade
+Portsmouth
+Portsoy
+Portstewart
+Portswood
+Potterne
+Potters Bar
+Potterspury
+Potton
+Poulton-le-Fylde
+Powys
+Poynton
+Preesall
+Prenton
+Prescot
+Prestatyn
+Prestbury
+Presteigne
+Preston
+Prestonpans
+Prestwich
+Prestwick
+Price Town
+Primrose Place
+Princes Risborough
+Princetown
+Probus
+Prudhoe
+Puckeridge
+Pucklechurch
+Puddletown
+Pudsey
+Pulborough
+Purfleet-on-Thames
+Puriton
+Purley
+Purton
+Putney
+Pwllheli
+Pyle
+Pyrford
+Queen's Park
+Queenborough
+Queensbury
+Queensferry
+Queenstown
+Queniborough
+Quorndon
+Rackheath
+Radcliffe
+Radcliffe on Trent
+Radlett
+Radley
+Radstock
+Radyr
+Raglan
+Rainford
+Rainham
+Rainhill
+Rainworth
+Rake
+Ramsbottom
+Ramsbury
+Ramsey
+Ramsgate
+Randalstown
+Ranskill
+Rastrick
+Ratby
+Rathfriland
+Ratho
+Ratho Station
+Raunds
+Ravenshead
+Ravenstone
+Rawcliffe
+Rawmarsh
+Rawtenstall
+Rayleigh
+Rayne
+Red Scar
+Redbourn
+Redbridge
+Redcar
+Redcar and Cleveland
+Redding
+Reddingmuirhead
+Redditch
+Redhill
+Redlynch
+Redruth
+Reedham
+Reepham
+Regent's Park
+Reigate
+Rendlesham
+Renfrew
+Renfrewshire
+Renton
+Repton
+Resolven
+Retford
+Rhayader
+Rhiwbina
+Rhondda
+Rhondda Cynon Taf
+Rhoose
+Rhosllannerchrugog
+Rhosneigr
+Rhu
+Rhuddlan
+Rhyl
+Rhymney
+Riccall
+Richmond
+Richmond upon Thames
+Rickinghall
+Rickmansworth
+Rillington
+Ringmer
+Ringstead
+Ringwood
+Ripley
+Ripon
+Ripponden
+Risca
+Riseley
+Rishton
+Roade
+Robertsbridge
+Rochdale
+Roche
+Rochester
+Rochford
+Rode Heath
+Roehampton
+Rogiet
+Romford
+Romney Marsh
+Romsey
+Romsley
+Rosehearty
+Rosewell
+Roslin
+Rosneath
+Ross on Wye
+Rossendale
+Rossett
+Rostrevor
+Rosyth
+Rothbury
+Rotherfield Peppard
+Rotherham
+Rotherhithe
+Rothes
+Rothesay
+Rothienorman
+Rothley
+Rothwell
+Rottingdean
+Rowde
+Rowhedge
+Rowlands Gill
+Rowledge
+Rowley Regis
+Royal Kensington and Chelsea
+Royal Kingston upon Thames
+Royal Leamington Spa
+Royal Tunbridge Wells
+Royal Wootton Bassett
+Roydon
+Royston
+Royton
+Ruabon
+Ruardean
+Ruddington
+Rudgwick
+Rufford
+Rugby
+Rugeley
+Ruislip
+Ruislip Manor
+Runcorn
+Rushden
+Ruskington
+Rusthall
+Rustington
+Rutherglen
+Ruthin
+Rutland
+Ruyton-XI-Towns
+Ryde
+Ryhall
+Ryhill
+Ryhope
+Ryton
+Ryton on Dunsmore
+Sabden
+Sacriston
+Saddleworth
+Saffron Walden
+Saint Agnes
+Saint Andrews
+Saint Asaph
+Saint Bees
+Saint Blazey
+Saint Boswells
+Saint Clears
+Saint Columb Major
+Saint Cyrus
+Saint Davids
+Saint Dennis
+Saint Ives
+Saint Leonards-on-Sea
+Saint Monans
+Saint Neots
+Saint Osyth
+Saint Peters
+Saint Stephen
+Saintfield
+Salcombe
+Salford
+Salfords
+Saline
+Salisbury
+Salsburgh
+Saltaire
+Saltash
+Saltburn-by-the-Sea
+Saltcoats
+Saltford
+Sampford Peverell
+Sandbach
+Sandbank
+Sanderstead
+Sandford
+Sandhurst
+Sandown
+Sandridge
+Sandwell
+Sandwick
+Sanquhar
+Sapcote
+Sarratt
+Sauchie
+Saughall
+Saundersfoot
+Sawbridgeworth
+Sawston
+Sawtry
+Saxilby
+Saxmundham
+Scalby
+Scalloway
+Scarborough
+Scarcroft
+Scawby
+Scholes
+Scissett
+Scole
+Scone
+Scorton
+Scotby
+Scotter
+Scunthorpe
+Seafield
+Seaford
+Seaham
+Seahouses
+Seascale
+Seaton Delaval
+Seaview
+Sedbergh
+Sedgefield
+Seer Green
+Sefton
+Seghill
+Selby
+Selkirk
+Selsey
+Seven Sisters
+Sevenoaks
+Severn Beach
+Shadoxhurst
+Shadwell
+Shaftesbury
+Shanklin
+Shap
+Sharlston
+Sharnbrook
+Sharpness
+Shawbury
+Sheerness
+Sheerwater
+Sheffield
+Shefford
+Shelley
+Shenfield
+Shenley
+Shenstone
+Shepherds Bush
+Shepherdswell
+Shepley
+Shepperton
+Shepshed
+Shepton Mallet
+Sherborne
+Sherborne St John
+Sherburn
+Sherburn Hill
+Sherburn in Elmet
+Sheriff Hutton
+Sheringham
+Sherston
+Shetland Islands
+Shevington
+Shieldhill
+Shifnal
+Shilbottle
+Shildon
+Shillingstone
+Shillington
+Shipdham
+Shipham
+Shipley
+Shipston on Stour
+Shipton under Wychwood
+Shirebrook
+Shiremoor
+Shirland
+Shirley
+Shoreham-by-Sea
+Shortlands
+Shotley Gate
+Shotts
+Shrewsbury
+Shrewton
+Shrivenham
+Shropshire
+Shurdington
+Sible Hedingham
+Sibsey
+Sidcup
+Sidmouth
+Sileby
+Silkstone
+Silloth
+Silsden
+Silsoe
+Silver End
+Silverdale
+Silverstone
+Silverton
+Sinfin
+Sion Mills
+Sissinghurst
+Sittingbourne
+Six Bells
+Skegness
+Skellingthorpe
+Skelmanthorpe
+Skelmersdale
+Skelmorlie
+Skelton
+Skidby
+Skinningrove
+Skipton
+Slamannan
+Sleaford
+Sleights
+Slinfold
+Slough
+Smalley
+Smethwick
+Smithton
+Snaith
+Snaresbrook
+Snettisham
+Snodland
+Soham
+Soho
+Solihull
+Somerset
+Somersham
+Somerton
+Sonning
+Sonning Common
+Sopwell
+South Ayrshire
+South Benfleet
+South Brent
+South Cave
+South Cerney
+South Chailey
+South Collingham
+South Croydon
+South Elmsall
+South Gloucestershire
+South Harefield
+South Harting
+South Hayling
+South Hetton
+South Lanarkshire
+South Littleton
+South Milford
+South Molton
+South Norwood
+South Nutfield
+South Ockendon
+South Petherton
+South Ruislip
+South Shields
+South Tyneside
+South Wingfield
+South Witham
+Southall
+Southam
+Southampton
+Southchurch Village
+Southend-on-Sea
+Southery
+Southgate
+Southminster
+Southowram
+Southport
+Southsea
+Southwark
+Southwater
+Southwell
+Southwick
+Southwold
+Sowerby Bridge
+Spalding
+Speke
+Speldhurst
+Spennymoor
+Spilsby
+Spitalfields
+Spixworth
+Spofforth
+Spratton
+Springside
+Sproatley
+St Albans
+St Austell
+St Helens
+St Ives
+St James's
+St Just
+St Leonards
+St Mary's
+St Mary's Bay
+Stafford
+Staffordshire
+Stainburn
+Staindrop
+Staines
+Stainforth
+Stakeford
+Stalbridge
+Stalham
+Stallingborough
+Stalybridge
+Stamford
+Stamford Bridge
+Stamford Hill
+Stamperland
+Stanbridge
+Standlake
+Standon
+Stanford in the Vale
+Stanford-le-Hope
+Stanhope
+Stanmore
+Stansted Mountfitchet
+Stanwell
+Stanwick
+Stapleford
+Staplehurst
+Starcross
+Staveley
+Steeple Bumpstead
+Steeple Claydon
+Steeton
+Stenhousemuir
+Stepney
+Stepps
+Stevenage
+Stevenston
+Steventon
+Stewartby
+Stewarton
+Stewkley
+Steyning
+Steynton
+Stickney
+Stillington
+Stilton
+Stirling
+Stithians
+Stockport
+Stocksbridge
+Stocksfield
+Stockton
+Stockton Heath
+Stockton-on-Tees
+Stoke Ferry
+Stoke Gabriel
+Stoke Gifford
+Stoke Golding
+Stoke Poges
+Stoke Prior
+Stoke-on-Trent
+Stoke-sub-Hamdon
+Stokenchurch
+Stokesley
+Stonehaven
+Stonehouse
+Stonesfield
+Stoney Stanton
+Stoneyburn
+Stornoway
+Storrington
+Stotfold
+Stourbridge
+Stourport-on-Severn
+Stow on the Wold
+Stowmarket
+Strabane
+Stradbroke
+Stranraer
+Stratfield Mortimer
+Stratford
+Stratford-upon-Avon
+Strathaven
+Strathblane
+Strathpeffer
+Stratton
+Streatham
+Streatley
+Streetly
+Strensall
+Stretford
+Stretham
+Stromness
+Strood
+Stroud
+Stroud Green
+Studley
+Sturminster Marshall
+Sturminster Newton
+Sturry
+Sudbrooke
+Sudbury
+Suffolk
+Sunbury-on-Thames
+Sunderland
+Sundridge
+Sunninghill
+Surbiton
+Surrey
+Sutterton
+Sutton
+Sutton Benger
+Sutton Bonington
+Sutton Bridge
+Sutton Coldfield
+Sutton Courtenay
+Sutton in Ashfield
+Sutton on Trent
+Swadlincote
+Swaffham
+Swanage
+Swanley
+Swanmore
+Swanscombe
+Swansea
+Swarthmoor
+Swavesey
+Sway
+Swillington
+Swindon
+Swineshead
+Swinton
+Symington
+Syston
+Sywell
+Tadcaster
+Tadley
+Tadworth
+Taibach
+Tain
+Takeley
+Tal-y-bont
+Talgarth
+Talysarn
+Tameside
+Tamworth
+Tandragee
+Tanfield
+Tangmere
+Tankerton
+Tansley
+Taplow
+Tarbert
+Tarbolton
+Tarleton
+Tarporley
+Tarves
+Tarvin
+Tattenhall
+Taunton
+Tavistock
+Tayport
+Teddington
+Teignmouth
+Telford
+Telford and Wrekin
+Templecombe
+Templepatrick
+Tenbury Wells
+Tenby
+Tenterden
+Terrington Saint John
+Terrington St Clement
+Tetbury
+Tetney
+Tewkesbury
+Teynham
+Thame
+Thames Ditton
+Thamesmead
+Thatcham
+Thaxted
+The Boldons
+The Scottish Borders
+Theale
+Thetford
+Theydon Bois
+Thirsk
+Thornaby-on-Tees
+Thornbury
+Thorne
+Thorner
+Thorney
+Thorngumbald
+Thornhill
+Thornley
+Thornliebank
+Thornton
+Thornton Dale
+Thornton Heath
+Thornton-Cleveleys
+Thorp Arch
+Thorpe
+Thorpe Hamlet
+Thorpe le Soken
+Thrapston
+Three Crosses
+Three Legged Cross
+Thurlby
+Thurlton
+Thurrock
+Thurso
+Thurston
+Tibshelf
+Ticehurst
+Tickhill
+Tickton
+Tideswell
+Tidworth
+Tilbury
+Tillicoultry
+Timperley
+Timsbury
+Tingewick
+Tintagel
+Tipton
+Tiptree
+Tisbury
+Titchfield
+Tiverton
+Tobermory
+Toddington
+Todmorden
+Todwick
+Tollesbury
+Tolleshunt Knights
+Tolworth
+Tonbridge
+Tonypandy
+Tonyrefail
+Tooting
+Topsham
+Torbay
+Torfaen
+Torphins
+Torpoint
+Torquay
+Torrance
+Totland
+Totnes
+Toton
+Tottenham
+Tottenham Hale
+Totteridge
+Tottington
+Totton
+Tow Law
+Towcester
+Tower Hamlets
+Town Row
+Townhill
+Townsend
+Toxteth
+Trafford
+Trafford Park
+Tranent
+Trebarwith
+Tredegar
+Treeton
+Tregaron
+Tregarth
+Treharris
+Treorchy
+Treuddyn
+Trimdon
+Trimdon Grange
+Trimsaran
+Troon
+Trowbridge
+Truro
+Tullibody
+Tumble
+Tunstall
+Turriff
+Tuxford
+Twechar
+Tweedbank
+Twyford
+Tycroes
+Tyldesley
+Tynemouth
+Tywyn
+Uckfield
+Uddingston
+Uffculme
+Ulceby
+Ullapool
+Ulverston
+Undy
+Uny Lelant
+Upchurch
+Upminster
+Upper Basildon
+Upper Cumberworth
+Upper Langwith
+Upper Norwood
+Upper Poppleton
+Uppermill
+Uppingham
+Upton
+Upton Lea
+Upton upon Severn
+Upwell
+Urmston
+Ushaw Moor
+Usk
+Uttoxeter
+Uxbridge
+Vale of Glamorgan
+Vale of Leven
+Vauxhall
+Ventnor
+Verwood
+Viewpark
+Vincent Square
+Virginia Water
+Waddesdon
+Waddington
+Wadebridge
+Wadhurst
+Wadworth
+Wainfleet All Saints
+Wakefield
+Walberton
+Wales
+Walkden
+Walkern
+Walkington
+Wallasey
+Wallingford
+Wallington
+Wallsend
+Walsall
+Walsden
+Waltham
+Waltham Abbey
+Waltham Cross
+Waltham Forest
+Walthamstow
+Walton
+Walton-on-Thames
+Walton-on-the-Naze
+Wanborough
+Wandsworth
+Wanstead
+Wantage
+Warboys
+Wardle
+Wareham
+Wargrave
+Waringstown
+Warkworth
+Warlingham
+Warminster
+Warmley
+Warnham
+Warrenpoint
+Warrington
+Warsop
+Warton
+Warwick
+Warwickshire
+Washingborough
+Washwood Heath
+Watchet
+Water Eaton
+Water Orton
+Waterbeach
+Waterfoot
+Wateringbury
+Waterloo
+Waterlooville
+Watford
+Wath upon Dearne
+Watlington
+Wattisham
+Watton
+Watton at Stone
+Wavertree
+Wealdstone
+Weaverham
+Wedmore
+Wednesbury
+Wednesfield
+Weedon Bec
+Weeting
+Welford
+Welham Green
+Wellesbourne
+Wellesbourne Mountford
+Welling
+Wellingborough
+Wellington
+Wells-next-the-Sea
+Welshpool
+Welwyn
+Welwyn Garden City
+Wem
+Wembley
+Wembury
+Wemyss Bay
+Wendover
+Wenvoe
+Weobley
+West Bay
+West Bergholt
+West Berkshire
+West Bridgford
+West Bromwich
+West Byfleet
+West Calder
+West Clandon
+West Coker
+West Derby
+West Drayton
+West Dunbartonshire
+West Ealing
+West End
+West End of London
+West Haddon
+West Hallam
+West Ham
+West Horndon
+West Horsley
+West Kilbride
+West Kingsdown
+West Kirby
+West Linton
+West Lothian
+West Malling
+West Mersea
+West Molesey
+West Northamptonshire
+West Rainton
+West Sussex
+West Thurrock
+West Walton
+West Watford
+West Wellow
+West Wickham
+Westbourne
+Westbury
+Westcliff-on-Sea
+Westcott
+Westergate
+Westerham
+Westgate on Sea
+Westhill
+Westhoughton
+Westminster
+Weston Turville
+Weston-super-Mare
+Westoning
+Westonzoyland
+Westquarter
+Westwood
+Wetheral
+Wetherby
+Weybridge
+Weymouth
+Whaley Bridge
+Whalley
+Whaplode
+Wheathampstead
+Wheatley
+Wheaton Aston
+Wheldrake
+Whetstone
+Whickham
+Whimple
+Whiston
+Whitburn
+Whitby
+Whitchurch
+Whitechapel
+Whitecraig
+Whitefield
+Whitehaven
+Whitehead
+Whitehills
+Whiteparish
+Whitland
+Whitley
+Whitley Bay
+Whitstable
+Whittington
+Whittlesey
+Whittlesford
+Whitwell
+Whitworth
+Whyteleafe
+Wick
+Wickford
+Wickham
+Wickham Bishops
+Wickham Market
+Wickwar
+Wideopen
+Widnes
+Wigan
+Wigston Magna
+Wigton
+Wilberfoss
+Wilburton
+Willand
+Willaston
+Willenhall
+Willesden
+Willingham
+Willington
+Williton
+Wilmcote
+Wilmslow
+Wilsden
+Wilstead
+Wilton
+Wiltshire
+Wimbledon
+Wimbledon Park
+Wimblington
+Wimborne Minster
+Wincanton
+Winchburgh
+Winchcombe
+Winchelsea Beach
+Winchester
+Windermere
+Windlesham
+Windsor
+Windsor and Maidenhead
+Windygates
+Winford
+Wingate
+Wingerworth
+Wingham
+Wingrave
+Winkleigh
+Winscombe
+Winsford
+Winslow
+Winterbourne
+Winteringham
+Winterton
+Winwick
+Wirksworth
+Wirral
+Wisbech
+Wishaw
+Witchford
+Witham
+Witheridge
+Withernsea
+Witley
+Witney
+Wittering
+Witton Gilbert
+Wiveliscombe
+Wivelsfield Green
+Wivenhoe
+Woburn Sands
+Woking
+Wokingham
+Woldingham
+Wollaston
+Wolsingham
+Wolston
+Wolvercote
+Wolverhampton
+Wombourne
+Wombwell
+Wooburn
+Wooburn Green
+Wood Green
+Wood Street Village
+Woodbridge
+Woodbury
+Woodchurch
+Woodcote
+Woodford
+Woodford Green
+Woodhall Spa
+Woodsetts
+Woodside
+Woodstock
+Woolavington
+Wooler
+Woolpit
+Woolston
+Woolton
+Wootton
+Worcester
+Worcester Park
+Worcestershire
+Workington
+Worksop
+World's End
+Wormley
+Worthing
+Wotton-under-Edge
+Wouldham
+Wragby
+Wrawby
+Wrea Green
+Wrexham
+Wrington
+Writtle
+Wrotham
+Wroughton
+Wroxall
+Wychbold
+Wye
+Wylam
+Wymeswold
+Y Felinheli
+Yalding
+Yapton
+Yarm
+Yarnton
+Yate
+Yateley
+Yatton
+Yaxley
+Yeadon
+Yealmpton
+Yelverton
+Yeovil
+Yetminster
+Ynysybwl
+York
+Youlgreave
+Yoxall
+Ystalyfera

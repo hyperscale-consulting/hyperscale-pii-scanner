@@ -267,8 +267,10 @@ Numbers above 120 are not ages. The hit span is the whole phrase. Score 0.7.
 
 Loads `data/uk_places.txt` once (one name per line, sorted, UTF-8). Matches
 whole words, case-sensitive, longest first, including multi-word names such
-as `Newcastle upon Tyne` and `Tower Hamlets`. Score 0.6, recogniser name
-`UkGazetteerRecognizer`. Implementation indexes names by their first word,
+as `Newcastle upon Tyne` and `Tower Hamlets`. Score 0.9, above spaCy's 0.85,
+so an exact gazetteer match beats a same-span PERSON or ORGANIZATION label from
+the model (which labels unfamiliar towns inconsistently) while a longer model
+span still wins by length. Recogniser name `UkGazetteerRecognizer`. Implementation indexes names by their first word,
 scans the text for capitalised tokens, and checks the candidate names
 (longest first) at each token, so the cost is linear in the text length.
 

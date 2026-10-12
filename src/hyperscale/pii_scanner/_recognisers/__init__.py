@@ -17,6 +17,7 @@ from .age import AgeRecognizer
 from .case_reference import CaseReferenceRecognizer
 from .date_of_birth import DateOfBirthRecognizer
 from .email import OfflineEmailRecognizer
+from .gazetteer import UkGazetteerRecognizer
 from .nino import UkNinoRecognizer
 from .postcode import UkPostcodeRecognizer
 from .uk_date import UkDateRecognizer
@@ -28,6 +29,7 @@ PHONE_REGIONS = ("GB",)
 def build_recognisers() -> list[EntityRecognizer]:
     return [
         SpacyRecognizer(supported_entities=SPACY_ENTITIES),
+        UkGazetteerRecognizer(),
         UkDateRecognizer(),
         DateOfBirthRecognizer(),
         AgeRecognizer(),
