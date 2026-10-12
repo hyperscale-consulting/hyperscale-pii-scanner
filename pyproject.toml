@@ -1,0 +1,88 @@
+[project]
+name = "hyperscale-pii-scanner"
+version = "0.1.0"
+description = "Deterministic, in-process scan for residual personal identifiers in UK English text, built on Presidio and spaCy"
+readme = "README.md"
+requires-python = ">=3.14"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Andy Caine", email = "andy@hyperscale.consulting" }]
+keywords = ["pii", "presidio", "spacy", "anonymisation", "redaction", "uk", "nhs"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Security",
+    "Topic :: Text Processing :: Linguistic",
+    "Typing :: Typed",
+]
+dependencies = [
+    "presidio-analyzer==2.2.364",
+    "spacy==3.8.16",
+    "tldextract>=5.1",
+]
+
+[project.optional-dependencies]
+documents = [
+    "python-docx>=1.2.0",
+    "openpyxl>=3.1.5",
+    "defusedxml>=0.7.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/hyperscale-consulting/hyperscale-pii-scanner"
+Repository = "https://github.com/hyperscale-consulting/hyperscale-pii-scanner"
+Changelog = "https://github.com/hyperscale-consulting/hyperscale-pii-scanner/blob/main/CHANGELOG.md"
+Issues = "https://github.com/hyperscale-consulting/hyperscale-pii-scanner/issues"
+
+[build-system]
+requires = ["uv_build>=0.12.13,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "hyperscale.pii_scanner"
+
+[tool.ruff]
+fix = true
+show-fixes = true
+output-format = "full"
+# The design spec and plan embed illustrative code; keep them as written.
+extend-exclude = ["docs"]
+
+[tool.ruff.lint]
+select = [
+    "B",   # flake8-bugbear
+    "E",   # pycodestyle error
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "W",   # pycodestyle warning
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+order-by-type = false
+
+[tool.pyright]
+pythonVersion = "3.14"  # minimum supported version
+typeCheckingMode = "strict"
+include = ["src", "tests"]
+venvPath = "."
+venv = ".venv"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["perf: timing tests that need the model loaded"]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.414",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.0",
+    "types-openpyxl>=3.1.5.20260827",
+]
+gazetteer = [
+    "wordfreq>=3.1.1",
+]

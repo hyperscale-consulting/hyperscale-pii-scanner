@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions: {}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+      - run: python3 scripts/vendor_model.py
+      - run: uv sync --locked --all-extras
+      - run: uv run ruff check --no-fix .
+      - run: uv run ruff format --check .
+      - run: uv run pyright
+
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      PII_SCANNER_PERF_BUDGET_SECONDS: "10"
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.14"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python3 scripts/vendor_model.py
+      - run: uv sync --locked --all-extras
+      - run: uv run pytest --cov=hyperscale.pii_scanner --cov-report=term-missing
+
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+      - run: python3 scripts/vendor_model.py
+      - run: uv build
+      - run: uvx twine==6.2.0 check dist/*
+      - name: Check the wheel contains the model and gazetteer
+        run: |
+          unzip -l dist/*.whl | grep -q "hyperscale/pii_scanner/_model/en_core_web_md-3.8.0/meta.json"
+          unzip -l dist/*.whl | grep -q "hyperscale/pii_scanner/data/uk_places.txt"
+
+  pip-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+      - run: uv export --no-emit-project --all-extras --format requirements-txt -o requirements.txt
+      - run: uvx pip-audit==2.10.1 --disable-pip -r requirements.txt
+
+  zizmor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+      - run: uvx zizmor==1.26.1 .github/workflows/
