@@ -29,7 +29,6 @@ from tests.helpers import matches
         ("seen in JULY 2026", "JULY 2026"),
         ("seen on 13/07/2026.", "13/07/2026"),
         ("seen on 2026-07-13.", "2026-07-13"),
-        ("(DOB 14.3.19).", "14.3.19"),
     ],
 )
 def test_uk_date_positive(text: str, expected: str):
@@ -46,6 +45,10 @@ def test_uk_date_positive(text: str, expected: str):
         "three weeks later",
         "phone 0113 496 2026",
         "Section 13 of July",
+        "see paragraph 6.2.10 above",
+        "6.2.10",
+        "version 13.07.26",
+        "(DOB 14.3.19).",
     ],
 )
 def test_uk_date_negative(text: str):
@@ -64,6 +67,7 @@ def test_textual_dates_score_higher_than_numeric():
     [
         ("DOB: 14/03/2019", "14/03/2019"),
         ("DOB 14.3.19", "14.3.19"),
+        ("(DOB 14.3.19).", "14.3.19"),
         ("D.O.B. 14 March 2019", "14 March 2019"),
         ("Date of birth: 14th of March 2019", "14th of March 2019"),
         ("date of birth 2019-03-14", "2019-03-14"),
@@ -98,3 +102,9 @@ def test_scan_reports_dob_not_date_for_labelled_date():
     by_text = {h.text: h.kind for h in hits}
     assert by_text["14/03/2019"] == HitKind.DATE_OF_BIRTH
     assert by_text["13 July 2026"] == HitKind.DATE
+
+
+def test_scan_still_reports_dotted_two_digit_year_after_dob_label():
+    hits = scan("The child (DOB 14.3.19) was seen; see paragraph 6.2.10.")
+    by_text = {h.text: h.kind for h in hits}
+    assert by_text == {"14.3.19": HitKind.DATE_OF_BIRTH}

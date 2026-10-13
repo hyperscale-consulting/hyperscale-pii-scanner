@@ -20,8 +20,8 @@ that text is anonymised, and no caller should describe its output that way.**
 | `person` | Personal names | spaCy NER |
 | `location` | Places, addresses | spaCy NER plus the UK gazetteer |
 | `organisation` | Organisations | spaCy NER |
-| `date` | Full dates and month-year pairs in UK conventions (`13th of July 2026`, `3rd June 2026`, `13/07/2026`, `2026-07-13`, `July 2026`) | pattern |
-| `date_of_birth` | A date within 25 characters after `DOB`, `D.O.B`, `date of birth`, `birth date` or `born` | pattern |
+| `date` | Full dates and month-year pairs in UK conventions (`13th of July 2026`, `3rd June 2026`, `13/07/2026`, `13/7/26`, `13.07.2026`, `2026-07-13`, `July 2026`). A dotted date needs a four-digit year, so `6.2.10` is a paragraph reference, not a date | pattern |
+| `date_of_birth` | A date within 25 characters after `DOB`, `D.O.B`, `date of birth`, `birth date` or `born`; here a dotted two-digit year (`DOB 14.3.19`) is accepted | pattern |
 | `age` | `aged 34`, `34 years old`, `34-year-old`, `six-year-old`, `18 months old` | pattern |
 | `postcode` | Full UK postcodes on their own; outward codes such as `LS1` only when a word like `postcode` precedes them | pattern with position rules |
 | `nhs_number` | Ten-digit NHS numbers that pass the Modulus 11 check | Presidio |
@@ -42,9 +42,12 @@ that text is anonymised, and no caller should describe its output that way.**
 - Ofcom's reserved fictional phone ranges (07700 900xxx and similar) are not
   valid numbers and are not reported.
 - Names, places and organisations the model does not recognise. NER is
-  statistical. Short alphanumeric tokens and role titles ("GP Partner") are
-  sometimes reported as organisations; a bare surname in a salutation is
-  sometimes missed.
+  statistical. Role titles and title-case phrases are sometimes reported as
+  organisations; a bare surname in a salutation is sometimes missed.
+- Organisations written as a short all-caps acronym (`NHS`, `CAMHS`, `BBC`),
+  and organisations that stand alone on a short line without a word such as
+  `School`, `Council`, `Trust` or `Ltd` in them. Both shapes are dropped on
+  purpose; see "Organisation noise" below.
 - Place names that are also common words (`Street`, `Hope`, `Reading`, `Bath`,
   `Wells`) or common personal names (`Keith`, `Barry`) are excluded from the
   gazetteer to avoid flagging ordinary prose; the model still reports them when
@@ -63,12 +66,22 @@ nothing is downloaded at install or run time.
 ## Interface
 
 ```python
-from hyperscale.pii_scanner import Hit, HitKind, redact, scan, scanner_version
+from hyperscale.pii_scanner import (
+    Hit,
+    HitKind,
+    placeholder_patterns_from_examples,
+    redact,
+    scan,
+    scanner_version,
+)
 
 hits: list[Hit] = scan(
     text,
     allowlist=["Dr Ian Brown", "IDB Experts Ltd"],
-    placeholder_patterns=[r"\b[A-Z]{3,}\d[A-Z]{1,3}\b", r"\([A-Z][A-Z ]+\d?\)"],
+    placeholder_patterns=placeholder_patterns_from_examples(
+        ["MOTHER2FN", "(LOCAL AUTHORITY)", "(SCHOOL1)"]
+    ),
+    kinds=set(HitKind) - {HitKind.ORGANISATION},  # optional; default is every kind
     language="en",
 )
 for hit in hits:
@@ -91,6 +104,16 @@ str(scanner_version())
 - `language` accepts only `"en"`. Any other value raises `ValueError`.
 - `allowlist` and `placeholder_patterns` must be iterables of strings; passing a
   single string raises `TypeError` rather than silently iterating its characters.
+- `kinds` limits which kinds are reported (members of `HitKind` or their string
+  values). An excluded kind behaves as if its recogniser had not run, so it
+  cannot hide an overlapping hit of a kept kind: with `organisation` excluded,
+  the gazetteer `Harrogate` under a model span `Harrogate, HG1` still appears.
+  An unknown value raises `ValueError`; an empty set returns no hits.
+- `placeholder_patterns_from_examples` turns example tokens into patterns, one
+  per shape: a run of capitals, lowercase letters, digits or whitespace in the
+  example matches any run of that class and everything else matches literally.
+  `MOTHER2FN` also covers `FATHER1SN`; `(LOCAL AUTHORITY)` also covers
+  `(GP SURGERY)` but not `(SCHOOL1)`, which needs its own example.
 - The model loads once per process on the first non-empty scan (about 1.5 s).
   `scan` is safe to call from multiple threads; calls are serialised on a lock,
   so use processes for parallelism.
@@ -106,6 +129,26 @@ NINO, postcode, case reference, email, URL, phone, age, date, in that order)
 beats a model kind; otherwise the longer span wins, then the higher score. An
 exact gazetteer match of a UK place name outranks a same-span model label.
 
+Before that, a model span that runs across a line break (a header glued to the
+first word of the next line) is split into one span per line.
+
+### Organisation noise
+
+On real reports the model labels headings, test names and acronyms as
+organisations far more often than it finds a real one. Two shapes are dropped
+before overlap resolution:
+
+- an all-caps span of six letters or fewer (`FSIQ`, `GAI`, `NHS`, `GP`), while
+  longer ones (`CAFCASS`) and mixed spans (`WISC-V`) are kept;
+- a span that is a whole line of six words or fewer in a multi-line text
+  (`Background Information`, `Verbal Comprehension`), unless a word in it names
+  an organisation type (`Practice`, `School`, `Council`, `Trust`, `Hospital`,
+  `Ltd`, `Surgery`, `Court` and similar), so a letterhead line such as
+  `Westfield Medical Practice` is still reported.
+
+Callers who find the remaining organisation hits unhelpful can leave the kind
+out with `kinds=`.
+
 ### Allowlist and placeholders
 
 Suppression runs after recognition, so it applies the same way whichever
@@ -113,14 +156,15 @@ recogniser produced a hit. The library finds every whole-word,
 case-insensitive occurrence of each allowlist entry and every match of each
 placeholder pattern (a Python regular expression). A hit that touches one of
 those spans is dropped when every token containing a capital letter or a digit
-lies inside such a span.
+lies inside such a span. Honorifics (`Mr`, `Mrs`, `Ms`, `Miss`, `Mx`, `Dr`,
+`Prof`) are neutral, like lowercase joining words.
 
-In practice: `Ian Brown` reported out of `Dr Ian Brown` is dropped, `LOCAL
-AUTHORITY` out of `(LOCAL AUTHORITY)` is dropped, and a model span that glued
-several placeholders together with "and" is dropped. A hit that extends beyond
-a placeholder with a capitalised word (`MOTHER2FN Jones`) is reported, because
-the extra text may be a leak. Invalid patterns raise `ValueError` before
-scanning.
+In practice: `Ian Brown` reported out of `Dr Ian Brown` is dropped, `Ms
+MOTHER2SN` is dropped, `LOCAL AUTHORITY` out of `(LOCAL AUTHORITY)` is dropped,
+and a model span that glued several placeholders together with "and" is
+dropped. A hit that extends beyond a placeholder with a capitalised word
+(`MOTHER2FN Jones`) is reported, because the extra text may be a leak. Invalid
+patterns raise `ValueError` before scanning.
 
 ### Document extraction (optional)
 
@@ -148,15 +192,17 @@ parser plus defusedxml in openpyxl. Parsing failures raise `ValueError`.
 
 ## Measured behaviour
 
-Measured on 2026-10-12 with `make measure` against the synthetic fixture corpus
+Measured on 2026-10-13 with `make measure` against the synthetic fixture corpus
 in `tests/fixtures/corpus/` (five documents, written for this project). The
-figures describe that corpus, not real documents.
+figures describe that corpus, not real documents. On real reports,
+organisation is the noisiest kind by a wide margin even after the
+organisation-noise rules above.
 
 | Kind | TP | FP | FN | Precision | Recall |
 |---|---|---|---|---|---|
 | person | 12 | 2 | 0 | 0.86 | 1.00 |
 | location | 6 | 1 | 0 | 0.86 | 1.00 |
-| organisation | 4 | 6 | 0 | 0.40 | 1.00 |
+| organisation | 4 | 2 | 0 | 0.67 | 1.00 |
 | date | 5 | 0 | 0 | 1.00 | 1.00 |
 | date_of_birth | 3 | 0 | 0 | 1.00 | 1.00 |
 | age | 4 | 0 | 0 | 1.00 | 1.00 |
@@ -167,23 +213,28 @@ figures describe that corpus, not real documents.
 | email | 1 | 0 | 0 | 1.00 | 1.00 |
 | url | 1 | 0 | 0 | 1.00 | 1.00 |
 | case_reference | 3 | 0 | 0 | 1.00 | 1.00 |
-| all | 49 | 9 | 0 | 0.84 | 1.00 |
+| all | 49 | 5 | 0 | 0.91 | 1.00 |
 
-The false positives are all model (spaCy) labels: "NHS", "GP", "GP Partner",
-"the Family Court", "the Crown Court" as organisations, a first name as a
-location, and the author's role glued to an allowlisted organisation. Pattern
-kinds produced no false positives on this corpus.
+The false positives are all model (spaCy) labels: "the Family Court" and "the
+Crown Court" as organisations, a first name as a location, and the author's
+role glued to an allowlisted organisation. Pattern kinds produced no false
+positives on this corpus.
 
 Timing and memory, Apple M-series laptop, model already loaded:
 
 | Measure | Value |
 |---|---|
 | 16,008-word document scan | 2.4 s |
-| Resident memory after load | 421 MB |
-| Peak resident memory after that scan | 824 MB |
+| Resident memory after load | 423 MB |
+| Peak resident memory after that scan | 812 MB |
 
 The test suite asserts the scan stays under 5 s locally and 10 s on the slower
 CI runner.
+
+The model is loaded once per process, not per thread. A multi-worker web
+server (gunicorn, uvicorn workers, Celery prefork) loads one copy per worker,
+so budget roughly 450 MB resident per worker plus 400 MB of headroom for the
+worker that is scanning, or run scans in a dedicated small pool of workers.
 
 Scan time grows with the number of hits and, for spaCy's tokeniser, with
 pathological punctuation runs (thousands of consecutive brackets). Scans

@@ -22,12 +22,19 @@ MONTH_NUM = r"(?:0?[1-9]|1[0-2])"
 TEXTUAL_DMY = rf"{WEEKDAY}{DAY}{ORDINAL}\s+(?:of\s+)?{MONTH}\.?,?\s+{YEAR}"
 TEXTUAL_MDY = rf"{WEEKDAY}{MONTH}\.?\s+{DAY}{ORDINAL},?\s+{YEAR}"
 MONTH_YEAR = rf"{MONTH}\.?,?\s+{YEAR}"
-NUMERIC_DMY = rf"{DAY}[/.-]{MONTH_NUM}[/.-](?:{YEAR}|\d{{2}})"
+# Dotted numeric dates need a four-digit year: "6.2.10" is a paragraph
+# reference far more often than it is a date.
+NUMERIC_DMY = (
+    rf"(?:{DAY}[/-]{MONTH_NUM}[/-](?:{YEAR}|\d{{2}})|{DAY}\.{MONTH_NUM}\.{YEAR})"
+)
+# Any separator and a two-digit year; safe only after a label such as "DOB".
+NUMERIC_DMY_LOOSE = rf"{DAY}[/.-]{MONTH_NUM}[/.-](?:{YEAR}|\d{{2}})"
 ISO = rf"{YEAR}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])"
 
-# Any supported date form, unanchored. Callers add boundaries. Case-insensitive
+# Any supported date form including the loose numeric one, unanchored, for
+# use after a label such as "DOB". Callers add boundaries. Case-insensitive
 # under Presidio's default flags.
-ANY_DATE = rf"(?:{TEXTUAL_DMY}|{TEXTUAL_MDY}|{ISO}|{NUMERIC_DMY}|{MONTH_YEAR})"
+ANY_DATE = rf"(?:{TEXTUAL_DMY}|{TEXTUAL_MDY}|{ISO}|{NUMERIC_DMY_LOOSE}|{MONTH_YEAR})"
 
 
 class UkDateRecognizer(PatternRecognizer):

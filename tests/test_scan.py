@@ -100,3 +100,63 @@ def test_scan_rejects_bare_string_allowlist_and_patterns():
         scan("Jane Smith", allowlist="Dr Ian Brown")  # type: ignore[arg-type]
     with pytest.raises(TypeError, match="placeholder_patterns"):
         scan("Jane Smith", placeholder_patterns=r"\bX\d\b")  # type: ignore[arg-type]
+
+
+def test_honorific_before_placeholder_is_suppressed():
+    text = "Ms MOTHER2SN attended the session with Mr FATHER1SN."
+    assert scan(text, placeholder_patterns=PLACEHOLDERS) == []
+
+
+def test_placeholder_in_header_line_is_not_glued_to_the_next_line():
+    text = (
+        "Psychological report on MOTHER2FN MOTHER2SN\nDate of assessment: 3 June 2026"
+    )
+    hits = scan(text, placeholder_patterns=PLACEHOLDERS)
+    assert not any("MOTHER2SN" in h.text for h in hits)
+    assert all("\n" not in h.text for h in hits)
+
+
+REPORT = (
+    "Psychological report on MOTHER2FN MOTHER2SN\nDate of assessment: 3 June 2026\n\n"
+    "Background Information\n\nShe was referred by Westfield Medical Practice.\n\n"
+    "Verbal Comprehension\n\nShe scored well on the VCI and the FSIQ was average. "
+    "The GAI, WMI and PRI were also average."
+)
+NOISE = {
+    "Background Information",
+    "Verbal Comprehension",
+    "VCI",
+    "FSIQ",
+    "GAI",
+    "WMI",
+    "PRI",
+}
+
+
+def test_headings_and_test_acronyms_are_not_reported_as_organisations():
+    hits = scan(REPORT, placeholder_patterns=PLACEHOLDERS)
+    orgs = {h.text for h in hits if h.kind == HitKind.ORGANISATION}
+    assert "Westfield Medical Practice" in orgs
+    assert not orgs & NOISE
+
+
+def test_scan_kinds_limits_the_kinds_reported():
+    text = "Jane Smith of Westfield Medical Practice lives in Harrogate, HG1 1AA."
+    hits = scan(text, kinds={HitKind.PERSON, HitKind.POSTCODE})
+    assert {h.kind for h in hits} == {HitKind.PERSON, HitKind.POSTCODE}
+    assert scan(text, kinds=[]) == []
+
+
+def test_scan_kinds_accepts_string_values_and_rejects_unknown_ones():
+    hits = scan("Jane Smith lives in Harrogate.", kinds=["location"])
+    assert [(h.kind, h.text) for h in hits] == [(HitKind.LOCATION, "Harrogate")]
+    with pytest.raises(ValueError, match="kinds"):
+        scan("Jane Smith", kinds=["name"])
+
+
+def test_excluded_kind_does_not_hide_an_overlapping_kept_kind():
+    # The model may label "Harrogate, HG1" as one organisation; with
+    # organisations excluded the gazetteer location underneath must survive.
+    text = "12 Station Parade, Harrogate, HG1 1AA"
+    hits = scan(text, kinds=set(HitKind) - {HitKind.ORGANISATION})
+    assert (HitKind.LOCATION, "Harrogate") in {(h.kind, h.text) for h in hits}

@@ -8,7 +8,9 @@ from hyperscale.pii_scanner import Hit
 from hyperscale.pii_scanner import HitKind
 from hyperscale.pii_scanner._postprocess import build_hits
 from hyperscale.pii_scanner._postprocess import Candidate
+from hyperscale.pii_scanner._postprocess import drop_organisation_noise
 from hyperscale.pii_scanner._postprocess import resolve_overlaps
+from hyperscale.pii_scanner._postprocess import split_lines
 from hyperscale.pii_scanner._postprocess import suppress
 from hyperscale.pii_scanner._postprocess import suppression_spans
 from hyperscale.pii_scanner._postprocess import to_candidates
@@ -184,3 +186,112 @@ def test_resolve_overlaps_and_suppress_scale_to_many_candidates():
     assert all(c.kind == HitKind.DATE for c in kept)
     assert len(survivors) == count
     assert elapsed < 2.0, f"took {elapsed:.2f}s"
+
+
+PLACEHOLDER = [r"\b[A-Z]{3,}\d[A-Z]{1,3}\b"]
+
+
+@pytest.mark.parametrize(
+    "honorific", ["Ms", "Mr", "Mrs", "Miss", "Mx", "Dr", "Dr.", "Prof"]
+)
+def test_suppress_treats_honorific_before_placeholder_as_neutral(honorific: str):
+    text = f"{honorific} MOTHER2SN attended."
+    spans = suppression_spans(text, allowlist=[], placeholder_patterns=PLACEHOLDER)
+    end = len(honorific) + 1 + len("MOTHER2SN")
+    assert suppress(text, [_cand(HitKind.PERSON, 0, end)], spans) == []
+
+
+def test_suppress_keeps_honorific_followed_by_a_real_surname():
+    text = "Ms MOTHER2SN and Ms Hartley attended."
+    spans = suppression_spans(text, allowlist=[], placeholder_patterns=PLACEHOLDER)
+    glued = _cand(HitKind.PERSON, 0, 27)  # "Ms MOTHER2SN and Ms Hartley"
+    assert suppress(text, [glued], spans) == [glued]
+
+
+def test_suppress_treats_honorific_before_allowlisted_name_as_neutral():
+    text = "Report by Dr Ian Brown."
+    spans = suppression_spans(text, allowlist=["Ian Brown"], placeholder_patterns=[])
+    assert suppress(text, [_cand(HitKind.PERSON, 10, 22)], spans) == []
+
+
+def test_split_lines_splits_model_spans_at_newlines_and_strips_whitespace():
+    text = "MOTHER2FN MOTHER2SN\nDate of assessment\r\n\nJane"
+    org = _cand(HitKind.ORGANISATION, 0, 24)  # "MOTHER2FN MOTHER2SN\nDate"
+    person = _cand(HitKind.PERSON, 19, 45)  # "\nDate of assessment\r\n\nJane"
+    pieces = split_lines(text, [org, person])
+    assert [(c.kind, text[c.start : c.end]) for c in pieces] == [
+        (HitKind.ORGANISATION, "MOTHER2FN MOTHER2SN"),
+        (HitKind.ORGANISATION, "Date"),
+        (HitKind.PERSON, "Date of assessment"),
+        (HitKind.PERSON, "Jane"),
+    ]
+    assert all(c.score == org.score and c.recogniser == org.recogniser for c in pieces)
+
+
+def test_split_lines_leaves_structured_kinds_and_single_line_spans_alone():
+    text = "DOB 14\nMarch 2019; Jane Smith"
+    dob = _cand(HitKind.DATE_OF_BIRTH, 4, 17)
+    person = _cand(HitKind.PERSON, 19, 29)
+    assert split_lines(text, [dob, person]) == [dob, person]
+
+
+def test_to_candidates_keeps_only_requested_kinds():
+    results = [
+        _result("PERSON", 0, 4, 0.85),
+        _result("ORGANIZATION", 5, 15, 0.85),
+        _result("UK_NHS", 16, 28, 1.0),
+    ]
+    kept = to_candidates(results, kinds={HitKind.PERSON, HitKind.NHS_NUMBER})
+    assert [c.kind for c in kept] == [HitKind.PERSON, HitKind.NHS_NUMBER]
+
+
+def _org_texts(text: str, *spans: tuple[int, int]) -> list[str]:
+    cands = [_cand(HitKind.ORGANISATION, s, e, 0.85) for s, e in spans]
+    return [text[c.start : c.end] for c in drop_organisation_noise(text, cands)]
+
+
+@pytest.mark.parametrize("acronym", ["FSIQ", "GAI", "NHS", "GP", "CAMHS", "TOPF"])
+def test_short_all_caps_acronym_is_not_an_organisation(acronym: str):
+    text = f"The {acronym} score was average."
+    assert _org_texts(text, (4, 4 + len(acronym))) == []
+
+
+@pytest.mark.parametrize("name", ["CAFCASS", "WISC-V", "Ofsted", "BBC Radio"])
+def test_longer_or_mixed_all_caps_spans_are_kept(name: str):
+    text = f"Referred by {name} last year."
+    assert _org_texts(text, (12, 12 + len(name))) == [name]
+
+
+def test_short_heading_line_in_multi_line_text_is_not_an_organisation():
+    text = "Intro line.\n\nBackground Information\n\nVerbal Comprehension\nMore."
+    assert _org_texts(text, (13, 35), (37, 57)) == []
+
+
+def test_letterhead_line_with_organisation_word_is_kept():
+    text = "Westfield Medical Practice\n12 Station Parade\nHarrogate"
+    assert _org_texts(text, (0, 26)) == ["Westfield Medical Practice"]
+
+
+def test_whole_line_rule_does_not_apply_to_single_line_text():
+    text = "Acme Widgets"
+    assert _org_texts(text, (0, 12)) == ["Acme Widgets"]
+
+
+def test_whole_line_rule_does_not_apply_to_long_lines_or_partial_lines():
+    long_line = "Northern Independent Assessment and Therapy Services Partnership"
+    text = f"Heading\n{long_line}\nSeen by Acme Widgets today"
+    start = len("Heading\n")
+    partial = text.index("Acme Widgets")
+    assert _org_texts(
+        text, (start, start + len(long_line)), (partial, partial + 12)
+    ) == [
+        long_line,
+        "Acme Widgets",
+    ]
+
+
+def test_drop_organisation_noise_leaves_other_kinds_alone():
+    text = "Intro.\nJane Smith\nLeeds"
+    person = _cand(HitKind.PERSON, 7, 17)
+    place = _cand(HitKind.LOCATION, 18, 23)
+    assert drop_organisation_noise(text, [person, place]) == [person, place]

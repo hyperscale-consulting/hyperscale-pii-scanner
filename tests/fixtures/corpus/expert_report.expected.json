@@ -10,6 +10,8 @@
   "must_not_report": [
     "CHILD1FN", "CHILD1SN", "MOTHER2FN", "MOTHER2SN", "FATHER1FN", "FATHER1SN", "GMOTHER1FN",
     "(LOCAL AUTHORITY)", "(SCHOOL1)", "(GP SURGERY)", "(CONTACT CENTRE)", "(NEIGHBOUR1)",
-    "Dr Ian Brown", "IDB Experts Ltd"
+    "Dr Ian Brown", "IDB Experts Ltd",
+    "Ms MOTHER2SN", "Mr FATHER1SN", "Verbal Comprehension", "FSIQ", "VCI", "PRI", "WMI", "TOPF",
+    "paragraph 6.2.10"
   ]
 }

@@ -15,9 +15,15 @@ The design may name:
 
 - **Safe strings** (the allowlist): exact names that must never be reported, such
   as the document author or their organisation.
-- **Placeholder patterns**: the shape of the anonymisation tokens already in the
-  document, such as `MOTHER2FN` or `(LOCAL AUTHORITY)`. The platform turns these
-  into patterns; a design only needs to give examples.
+- **Placeholder examples**: the anonymisation tokens already in the document,
+  such as `MOTHER2FN` or `(LOCAL AUTHORITY)`. A design gives one example per
+  shape; the platform turns them into patterns with the library's
+  `placeholder_patterns_from_examples`, so `MOTHER2FN` also covers `FATHER1SN`
+  and `(LOCAL AUTHORITY)` also covers `(GP SURGERY)`. A shape with digits
+  inside brackets, such as `(SCHOOL1)`, needs its own example.
+- **Kinds to report**: a design may leave out a kind, most often organisation,
+  which is the noisiest on real reports. Leaving out a kind means that kind is
+  never reviewed, so say so in the design.
 
 Kinds the scan reports: person, location, organisation, date, date of birth,
 age, postcode, NHS number, National Insurance number, phone, email, URL, case
@@ -51,6 +57,9 @@ document or that author. It may not auto-confirm hits.
   unless the design converts them to text first, and OCR errors reduce detection.
 - **Size.** Scans run one at a time per process and slow down on very large or
   pathological text. Cap upload size and scan a spreadsheet sheet by sheet.
+- **Memory.** Each worker process that scans holds about 450 MB resident after
+  the model loads and peaks near 850 MB during a scan. Plan worker counts
+  accordingly or scan in a dedicated pool.
 - **Audit.** Record the scanner version string with each review so the result
   can be reproduced.
 - **Never describe the result as anonymised.** Describe it as reviewed.
