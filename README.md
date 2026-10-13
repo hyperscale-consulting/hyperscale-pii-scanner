@@ -90,7 +90,7 @@ for hit in hits:
 redacted = redact(text, hits, token_for=lambda hit: f"[{hit.kind.value.upper()}]")
 
 str(scanner_version())
-# 'hyperscale-pii-scanner 0.1.0; presidio-analyzer 2.2.364; spacy 3.8.16; en_core_web_md 3.8.0'
+# 'hyperscale-pii-scanner 0.2.0; presidio-analyzer 2.2.364; spacy 3.8.16; en_core_web_md 3.8.0'
 ```
 
 - `scan` returns hits sorted by position, non-overlapping, each with a score of
