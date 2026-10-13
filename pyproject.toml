@@ -1,6 +1,6 @@
 [project]
 name = "hyperscale-pii-scanner"
-version = "0.1.0"
+version = "0.2.0"
 description = "Deterministic, in-process scan for residual personal identifiers in UK English text, built on Presidio and spaCy"
 readme = "README.md"
 requires-python = ">=3.14"
