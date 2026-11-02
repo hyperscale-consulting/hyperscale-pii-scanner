@@ -18,7 +18,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "presidio-analyzer==2.2.364",
+    "presidio-analyzer==2.2.366",
     "spacy==3.8.16",
     "tldextract>=5.1",
 ]
