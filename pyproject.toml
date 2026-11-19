@@ -19,7 +19,7 @@ classifiers = [
 ]
 dependencies = [
     "presidio-analyzer==2.2.364",
-    "spacy==3.8.16",
+    "spacy==3.8.18",
     "tldextract>=5.1",
 ]
 
