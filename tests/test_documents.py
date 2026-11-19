@@ -11,6 +11,7 @@ from hyperscale.pii_scanner import scan
 from hyperscale.pii_scanner.documents import extract_text
 from hyperscale.pii_scanner.documents import ExtractedText
 from hyperscale.pii_scanner.documents import Segment
+from hyperscale.pii_scanner.testing import pdf_bytes
 
 
 def _docx(
@@ -112,7 +113,7 @@ def test_path_input(tmp_path: Path):
 
 def test_rejects_unknown_kind_and_non_zip_and_oversize(monkeypatch: pytest.MonkeyPatch):
     with pytest.raises(ValueError, match="kind"):
-        extract_text(b"x", kind="pdf")  # type: ignore[arg-type]
+        extract_text(b"x", kind="odt")  # type: ignore[arg-type]
     with pytest.raises(ValueError, match="zip"):
         extract_text(b"not a zip file", kind="docx")
     monkeypatch.setattr("hyperscale.pii_scanner.documents.MAX_BYTES", 10)
@@ -190,3 +191,47 @@ def test_docx_linked_headers_and_merged_cells_are_not_duplicated():
     doc = extract_text(buf.getvalue(), kind="docx")
     assert doc.text.count("Jane Smith") == 1
     assert doc.text.count("Bob Jones") == 1
+
+
+def test_pdf_pages_get_page_labels():
+    doc = extract_text(
+        pdf_bytes(["Intro.", "Jane Smith attended.", "Bob Jones, Leeds"]), kind="pdf"
+    )
+    assert doc.locate(doc.text.index("Jane Smith")) == "page 2"
+    assert doc.locate(doc.text.index("Leeds")) == "page 3"
+    assert doc.pages_without_text == ()
+
+
+def test_pdf_reports_pages_without_text_and_skips_them_in_segments():
+    doc = extract_text(pdf_bytes(["Report.", None, "   ", "End."]), kind="pdf")
+    assert doc.pages_without_text == (2, 3)
+    assert [s.label for s in doc.segments] == ["page 1", "page 4"]
+
+
+def test_pdf_all_pages_without_text():
+    doc = extract_text(pdf_bytes([None, None]), kind="pdf")
+    assert doc.text == ""
+    assert doc.pages_without_text == (1, 2)
+
+
+def test_pdf_hits_map_back_to_pages():
+    doc = extract_text(pdf_bytes(["Cover.", "NHS number 943 476 5919"]), kind="pdf")
+    nhs = next(h for h in scan(doc.text) if h.kind == HitKind.NHS_NUMBER)
+    assert doc.locate(nhs.start) == "page 2"
+
+
+def test_pdf_rejects_non_pdf_bytes_encrypted_and_too_many_pages(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    with pytest.raises(ValueError, match="not a PDF"):
+        extract_text(_docx(["x"]), kind="pdf")
+    with pytest.raises(ValueError, match="encrypted"):
+        extract_text(pdf_bytes(["x"], password="p"), kind="pdf")
+    monkeypatch.setattr("hyperscale.pii_scanner.documents.MAX_PDF_PAGES", 2)
+    with pytest.raises(ValueError, match="pages"):
+        extract_text(pdf_bytes(["a", "b", "c"]), kind="pdf")
+
+
+def test_docx_and_xlsx_have_no_pages_without_text():
+    assert extract_text(_docx(["x"]), kind="docx").pages_without_text == ()
+    assert extract_text(_xlsx({"S": {"A1": "x"}}), kind="xlsx").pages_without_text == ()

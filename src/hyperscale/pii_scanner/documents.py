@@ -1,8 +1,10 @@
-"""Optional text extraction from Word and Excel files with a location map.
+"""Optional text extraction from Word, Excel and PDF files with a location map.
 
 Install with ``hyperscale-pii-scanner[documents]``. Every file is treated as
 untrusted input: size caps, a declared-uncompressed-size check before parsing,
-entity resolution disabled in python-docx, defusedxml installed for openpyxl.
+entity resolution disabled in python-docx, defusedxml installed for openpyxl,
+a page cap for PDFs. A PDF is read from its text layer only: a page with no
+text (a scan, say) is reported in ``pages_without_text``, never guessed at.
 """
 
 from __future__ import annotations
@@ -20,6 +22,7 @@ from typing import Literal
 try:
     import docx
     import openpyxl
+    import pypdf
 except ImportError as exc:  # pragma: no cover - exercised only without the extra
     raise ImportError(
         "hyperscale.pii_scanner.documents needs the 'documents' extra: "
@@ -36,9 +39,11 @@ from docx.types import ProvidesStoryPart
 
 MAX_BYTES = 50 * 1024 * 1024
 MAX_UNCOMPRESSED_BYTES = 250 * 1024 * 1024
+MAX_PDF_PAGES = 1000
 SEPARATOR = "\n"
 
-Kind = Literal["docx", "xlsx"]
+Kind = Literal["docx", "xlsx", "pdf"]
+_KINDS = ("docx", "xlsx", "pdf")
 
 
 @dataclass(frozen=True, slots=True)
@@ -52,6 +57,9 @@ class Segment:
 class ExtractedText:
     text: str
     segments: tuple[Segment, ...]
+    # 1-based numbers of PDF pages with no extractable text; always empty for
+    # Word and Excel.
+    pages_without_text: tuple[int, ...] = ()
 
     def locate(self, offset: int) -> str:
         """Label of the segment containing ``offset``.
@@ -111,8 +119,10 @@ class _Builder:
         self.length += len(text)
         self.segments.append(Segment(start, self.length, label))
 
-    def build(self) -> ExtractedText:
-        return ExtractedText(SEPARATOR.join(self.parts), tuple(self.segments))
+    def build(self, pages_without_text: tuple[int, ...] = ()) -> ExtractedText:
+        return ExtractedText(
+            SEPARATOR.join(self.parts), tuple(self.segments), pages_without_text
+        )
 
 
 _W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -229,11 +239,45 @@ def _extract_xlsx(data: bytes) -> ExtractedText:
     return builder.build()
 
 
+def _open_pdf(data: bytes) -> pypdf.PdfReader:
+    if not data.startswith(b"%PDF-"):
+        raise ValueError("file is not a PDF")
+    try:
+        reader = pypdf.PdfReader(io.BytesIO(data))
+        locked = reader.is_encrypted and not reader.decrypt("")
+        count = 0 if locked else len(reader.pages)
+    except Exception as exc:
+        raise ValueError(f"could not parse pdf document: {exc}") from exc
+    if locked:
+        raise ValueError("encrypted PDF: it needs a password to open")
+    if count > MAX_PDF_PAGES:
+        raise ValueError(f"PDF has {count} pages; at most {MAX_PDF_PAGES} are read")
+    return reader
+
+
+def _extract_pdf(reader: pypdf.PdfReader) -> ExtractedText:
+    builder = _Builder()
+    without_text: list[int] = []
+    for number, page in enumerate(reader.pages, start=1):
+        text = page.extract_text()
+        if not text.strip():
+            without_text.append(number)
+            continue
+        builder.add(text, f"page {number}")
+    return builder.build(tuple(without_text))
+
+
 def extract_text(source: str | os.PathLike[str] | bytes, kind: Kind) -> ExtractedText:
-    """Extract plain text and a location map from a .docx or .xlsx file."""
-    if kind not in ("docx", "xlsx"):
-        raise ValueError(f"unsupported kind {kind!r}; expected 'docx' or 'xlsx'")
+    """Extract plain text and a location map from a .docx, .xlsx or .pdf file."""
+    if kind not in _KINDS:
+        raise ValueError(f"unsupported kind {kind!r}; expected 'docx', 'xlsx' or 'pdf'")
     data = _read_source(source)
+    if kind == "pdf":
+        reader = _open_pdf(data)
+        try:
+            return _extract_pdf(reader)
+        except Exception as exc:
+            raise ValueError(f"could not parse pdf document: {exc}") from exc
     _check_zip(data)
     try:
         return _extract_docx(data) if kind == "docx" else _extract_xlsx(data)

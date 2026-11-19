@@ -57,7 +57,7 @@ that text is anonymised, and no caller should describe its output that way.**
 
 ```bash
 uv add hyperscale-pii-scanner                # core
-uv add "hyperscale-pii-scanner[documents]"   # plus Word and Excel extraction
+uv add "hyperscale-pii-scanner[documents]"   # plus Word, Excel and PDF extraction
 ```
 
 Python 3.14 or later. The wheel includes the spaCy `en_core_web_md` model, so
@@ -171,12 +171,12 @@ patterns raise `ValueError` before scanning.
 ```python
 from hyperscale.pii_scanner.documents import extract_text
 
-doc = extract_text(path_or_bytes, kind="docx")  # or "xlsx"
+doc = extract_text(path_or_bytes, kind="docx")  # or "xlsx", "pdf"
 hits = scan(doc.text)
 for hit in hits:
     print(
         doc.locate(hit.start), hit.kind, hit.text
-    )  # "paragraph 14", "sheet Results, cell B20"
+    )  # "paragraph 14", "sheet Results, cell B20", "page 3"
 ```
 
 Word: every paragraph in the body in document order, including paragraphs
@@ -189,6 +189,20 @@ sheet by sheet, using cached values rather than formulas. Files are untrusted
 input: a 50 MB size cap, a declared-uncompressed-size cap of 250 MB checked
 before parsing, XML entity resolution disabled in python-docx, an entity-safe
 parser plus defusedxml in openpyxl. Parsing failures raise `ValueError`.
+
+PDF: the text layer of each page, one segment per page (`page 3`), read with
+pypdf. Only text is read: pictures, and pages that are scans, are not. A page
+with no extractable text is left out of the text and listed in
+`doc.pages_without_text` (1-based page numbers; always empty for Word and
+Excel). The library does not decide what that means; a caller that must check
+every page refuses the document when the list is not empty. A scanned page
+that carries some real text, such as a stamped page number, counts as having
+text. A PDF that needs a password, bytes that are not a PDF, and a PDF of more
+than 1,000 pages raise `ValueError`.
+
+For tests, `hyperscale.pii_scanner.testing.pdf_bytes(["page text", None])`
+builds a small PDF in code (`None` is a page with no text), so fixtures keep
+their planted identifiers in the test source instead of a committed binary.
 
 ## Measured behaviour
 
