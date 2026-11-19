@@ -40,6 +40,9 @@ from docx.types import ProvidesStoryPart
 MAX_BYTES = 50 * 1024 * 1024
 MAX_UNCOMPRESSED_BYTES = 250 * 1024 * 1024
 MAX_PDF_PAGES = 1000
+# Decoded content-stream bytes read across the whole PDF, counted once per
+# page that uses a stream: a page cap alone lets one shared stream multiply.
+MAX_PDF_CONTENT_BYTES = 32 * 1024 * 1024
 SEPARATOR = "\n"
 
 Kind = Literal["docx", "xlsx", "pdf"]
@@ -258,9 +261,18 @@ def _open_pdf(data: bytes) -> pypdf.PdfReader:
 def _extract_pdf(reader: pypdf.PdfReader) -> ExtractedText:
     builder = _Builder()
     without_text: list[int] = []
+    budget = MAX_PDF_CONTENT_BYTES
     for number, page in enumerate(reader.pages, start=1):
+        contents = page.get_contents()
+        budget -= len(contents.get_data()) if contents is not None else 0
+        if budget < 0:
+            raise ValueError(
+                f"PDF content is larger than {MAX_PDF_CONTENT_BYTES} bytes to read"
+            )
         text = page.extract_text()
-        if not text.strip():
+        # A page with no letter or digit (blank, dots, control characters from
+        # an unmapped font) has nothing readable: a scan, as far as we know.
+        if not any(c.isalnum() for c in text):
             without_text.append(number)
             continue
         builder.add(text, f"page {number}")

@@ -172,6 +172,8 @@ patterns raise `ValueError` before scanning.
 from hyperscale.pii_scanner.documents import extract_text
 
 doc = extract_text(path_or_bytes, kind="docx")  # or "xlsx", "pdf"
+if doc.pages_without_text:  # a PDF with pages it could not read
+    raise ValueError("some pages are scans; their text can't be checked")
 hits = scan(doc.text)
 for hit in hits:
     print(
@@ -192,13 +194,17 @@ parser plus defusedxml in openpyxl. Parsing failures raise `ValueError`.
 
 PDF: the text layer of each page, one segment per page (`page 3`), read with
 pypdf. Only text is read: pictures, and pages that are scans, are not. A page
-with no extractable text is left out of the text and listed in
+with no letter or digit in its extracted text is left out of the text and
+listed in
 `doc.pages_without_text` (1-based page numbers; always empty for Word and
 Excel). The library does not decide what that means; a caller that must check
 every page refuses the document when the list is not empty. A scanned page
 that carries some real text, such as a stamped page number, counts as having
-text. A PDF that needs a password, bytes that are not a PDF, and a PDF of more
-than 1,000 pages raise `ValueError`.
+text. A PDF that opens without a password is read, whatever its encryption
+(the extra installs `pypdf[crypto]` for AES). A PDF that needs a password,
+bytes that are not a PDF, a PDF of more than 1,000 pages, and one with more
+than 32 MB of page content to read (counted per page, so a stream shared by
+many pages counts for each) raise `ValueError`.
 
 For tests, `hyperscale.pii_scanner.testing.pdf_bytes(["page text", None])`
 builds a small PDF in code (`None` is a page with no text), so fixtures keep

@@ -10,10 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `extract_text(kind="pdf")` reads a PDF's text layer with pypdf (now in the
-  `documents` extra), one segment per page labelled `page N`. A password, a
-  non-PDF file or more than 1,000 pages raise `ValueError`.
-- `ExtractedText.pages_without_text`: the pages of a PDF with no extractable
-  text (a scan, say). Empty for Word and Excel.
+  `documents` extra, with its `crypto` extra for AES), one segment per page
+  labelled `page N`. A password, a non-PDF file, more than 1,000 pages or
+  more than 32 MB of page content raise `ValueError`.
+- `ExtractedText.pages_without_text`: the pages of a PDF with no letter or
+  digit in their extracted text (a scan, say). Empty for Word and Excel.
 - `hyperscale.pii_scanner.testing.pdf_bytes` builds small PDFs in code for
   tests.
 

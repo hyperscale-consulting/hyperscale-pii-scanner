@@ -235,3 +235,35 @@ def test_pdf_rejects_non_pdf_bytes_encrypted_and_too_many_pages(
 def test_docx_and_xlsx_have_no_pages_without_text():
     assert extract_text(_docx(["x"]), kind="docx").pages_without_text == ()
     assert extract_text(_xlsx({"S": {"A1": "x"}}), kind="xlsx").pages_without_text == ()
+
+
+def _aes_pdf(user_password: str) -> bytes:
+    from pypdf import PdfReader
+    from pypdf import PdfWriter
+
+    writer = PdfWriter(clone_from=PdfReader(io.BytesIO(pdf_bytes(["Jane Smith"]))))
+    writer.encrypt(user_password=user_password, owner_password="o", algorithm="AES-256")
+    out = io.BytesIO()
+    writer.write(out)
+    return out.getvalue()
+
+
+def test_pdf_aes_with_empty_user_password_is_read():
+    doc = extract_text(_aes_pdf(""), kind="pdf")
+    assert "Jane Smith" in doc.text
+
+
+def test_pdf_aes_with_password_is_refused_as_encrypted():
+    with pytest.raises(ValueError, match="encrypted"):
+        extract_text(_aes_pdf("secret"), kind="pdf")
+
+
+def test_pdf_page_with_no_letters_or_digits_counts_as_without_text():
+    doc = extract_text(pdf_bytes(["Report.", "...", "- -"]), kind="pdf")
+    assert doc.pages_without_text == (2, 3)
+
+
+def test_pdf_content_budget_bounds_the_work(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setattr("hyperscale.pii_scanner.documents.MAX_PDF_CONTENT_BYTES", 100)
+    with pytest.raises(ValueError, match="content"):
+        extract_text(pdf_bytes(["a" * 40, "b" * 40, "c" * 40]), kind="pdf")
